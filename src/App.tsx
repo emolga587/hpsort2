@@ -4,6 +4,7 @@ import "./App.css";
 
 import Layout from "./components/Layout";
 import SortPage from "./components/SortPage";
+import HPDatabase from "./modules/HPDatabase";
 
 interface Props { }
 interface State {
@@ -17,9 +18,9 @@ export default class App extends React.Component<Props, State> {
       <Layout title="ハロプロソート2.0">
         <Router>
           <Link to="/">Home</Link>
-          <Link to="/HPAll">ハロプロ全員</Link>
+          <Link to="/hpall">ハロプロ全員</Link>
           <Route exact path="/" component={Home} />
-          <Route path="/HPAll" component={HPAll} />
+          <Route path="/hpall" component={HPAll} />
         </Router>
       </Layout>
     );
@@ -28,12 +29,13 @@ export default class App extends React.Component<Props, State> {
 
 class Home extends React.Component<Props, State> {
   render() {
-    return <div></div>;
+  return <div></div>;
   }
 }
 
 class HPAll extends React.Component<Props, State> {
   render() {
-    return <div><SortPage members={["加賀楓", "えもえも", "デデンネ", "ピカチュウ"]} /></div>;
+    const hpDB =  new HPDatabase();
+    return <div><SortPage members={hpDB.currentHPMembers} /></div>;
   }
 }
