@@ -4,7 +4,7 @@ import "./App.css";
 
 import Layout from "./components/Layout";
 import SortPage from "./components/SortPage";
-import HPDatabase from "./modules/HPDatabase";
+import hpDB from "./modules/HPDatabase";
 
 interface Props { }
 interface State {
@@ -15,12 +15,11 @@ interface State {
 export default class App extends React.Component<Props, State> {
   render() {
     return (
-      <Layout title="ハロプロソート2.0">
+      <Layout title="H!PSort(updated)">
         <Router>
-          <Link to="/">Home</Link>
-          <Link to="/hpall">ハロプロ全員</Link>
           <Route exact path="/" component={Home} />
-          <Route path="/hpall" component={HPAll} />
+          <Route path="/hpmembers" component={HPAll} />
+          <Route path="/hpall" component={HPAllIncludeTrainee} />
         </Router>
       </Layout>
     );
@@ -29,13 +28,22 @@ export default class App extends React.Component<Props, State> {
 
 class Home extends React.Component<Props, State> {
   render() {
-  return <div></div>;
+    return <div>
+      <Link to="/">Home</Link><br />
+      <Link to="/hpmembers">ハロプロ全員</Link><br />
+      <Link to="/hpall">ハロプロ全員(研修生含む)</Link><br />
+    </div>;
   }
 }
 
 class HPAll extends React.Component<Props, State> {
   render() {
-    const hpDB =  new HPDatabase();
     return <div><SortPage members={hpDB.currentHPMembers} /></div>;
+  }
+}
+
+class HPAllIncludeTrainee extends React.Component<Props, State> {
+  render() {
+    return <div><SortPage members={hpDB.currentHPMembersIncludeTrainee} /></div>;
   }
 }

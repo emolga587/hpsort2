@@ -26,7 +26,7 @@ interface Join {
     gradDate: string;
 }
 
-export default class HPDatabase {
+class HPDatabase {
     private _members: Member[] = [];
     private _groups: Group[] = [];
     private _joins: Join[] = [];
@@ -46,18 +46,75 @@ export default class HPDatabase {
         return result;
     }
 
-    private groupName2ID = (groupname: string): number => {
-        let result = 0;
-        // TODO: つくる
-
+    get currentHPMembersIncludeTrainee(): string[] {
+        let result: string[] = [];
+        for (let i of this._members) {
+            if (!i.HPgradDate) {
+                result.push(i.memberName);
+            }
+        }
         return result;
     }
 
-    private member = (id: number): string => {
+    groupNameByMemberName = (memberName: string): string => {
+        let result = "Hello! Project"
+        const memberID = this.memberName2ID(memberName);
+        for(let i of this._joins){
+            if(i.memberID === memberID && !i.gradDate){
+                result = this.groupName(i.groupID);
+            }
+        }
+        return result;
+    }
+
+    membersByGroup = (groupname: string): string[] => {
+        const groupID = this.groupName2ID(groupname);
+        let result: string[] = [];
+        for(let i of this._joins){
+            if(i.groupID === groupID && !i.gradDate && !result.includes(this.memberName(i.memberID))){
+                result.push(this.memberName(i.memberID));
+            }
+        }
+        console.debug(groupname);
+        console.log(result);
+        return result;
+    }
+
+    private groupName2ID = (groupname: string): string => {
+        let result = 0;
+        for (let i of this._groups){
+            if(i.groupName === groupname){
+                result = Number(i.groupID);
+            }
+        }
+        return result.toString();
+    }
+
+    private memberName2ID = (membername: string): string => {
+        let result = 0;
+        for (let i of this._members){
+            if(i.memberName === membername){
+                result = Number(i.memberID);
+            }
+        }
+        return result.toString();
+    }
+
+    private memberName = (id: string): string => {
         let result = "";
         for (let i of this._members) {
-            if (i.memberID === id.toString()) {
+            if (i.memberID === id) {
                 result = i.memberName;
+            }
+        }
+        return result;
+    }
+
+    private groupName = (id: string): string => {
+        let result = "";
+        for (let i of this._groups) {
+            if (i.groupID === id) {
+                result = i.groupName;
             }
         }
         return result;
@@ -72,3 +129,6 @@ export default class HPDatabase {
         return parse(csv, { columns: true });
     }
 }
+
+const hpDB = new HPDatabase();
+export default hpDB;
