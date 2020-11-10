@@ -89,7 +89,7 @@ class HPDatabase {
     }
 
     groupName2ColorCode = (id: string): string => {
-        let result = "#000000";
+        let result = "#2196F3";
         let groupID = this.groupName2ID(id)
         for (let i of this._group_colors) {
             if (i.groupID === groupID) {
