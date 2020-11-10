@@ -1,6 +1,7 @@
 import parse from "csv-parse/lib/sync";
 import HP_DB_MEMBERS from "../HP_DB/member.csv";
 import HP_DB_GROUPS from "../HP_DB/group.csv";
+import HP_DB_GROUP_COLORS from "../data/group_color.csv";
 import HP_DB_JOINS from "../HP_DB/join.csv";
 
 // インターフェイス
@@ -26,15 +27,22 @@ interface Join {
     gradDate: string;
 }
 
+interface GroupColor {
+    groupID: string;
+    colorCode: string;
+}
+
 class HPDatabase {
     private _members: Member[] = [];
     private _groups: Group[] = [];
     private _joins: Join[] = [];
+    private _group_colors: GroupColor[] = [];
 
     constructor() {
         this._members = this.fetchCSV(HP_DB_MEMBERS);
         this._groups = this.fetchCSV(HP_DB_GROUPS);
         this._joins = this.fetchCSV(HP_DB_JOINS);
+        this._group_colors = this.fetchCSV(HP_DB_GROUP_COLORS);
     }
     get currentHPMembers(): string[] {
         let result: string[] = [];
@@ -59,8 +67,8 @@ class HPDatabase {
     groupNameByMemberName = (memberName: string): string => {
         let result = "Hello! Project"
         const memberID = this.memberName2ID(memberName);
-        for(let i of this._joins){
-            if(i.memberID === memberID && !i.gradDate){
+        for (let i of this._joins) {
+            if (i.memberID === memberID && !i.gradDate) {
                 result = this.groupName(i.groupID);
             }
         }
@@ -70,8 +78,8 @@ class HPDatabase {
     membersByGroup = (groupname: string): string[] => {
         const groupID = this.groupName2ID(groupname);
         let result: string[] = [];
-        for(let i of this._joins){
-            if(i.groupID === groupID && !i.gradDate && !result.includes(this.memberName(i.memberID))){
+        for (let i of this._joins) {
+            if (i.groupID === groupID && !i.gradDate && !result.includes(this.memberName(i.memberID))) {
                 result.push(this.memberName(i.memberID));
             }
         }
@@ -80,10 +88,21 @@ class HPDatabase {
         return result;
     }
 
+    groupName2ColorCode = (id: string): string => {
+        let result = "#000000";
+        let groupID = this.groupName2ID(id)
+        for (let i of this._group_colors) {
+            if (i.groupID === groupID) {
+                result = i.colorCode;
+            }
+        }
+        return result;
+    }
+
     private groupName2ID = (groupname: string): string => {
         let result = 0;
-        for (let i of this._groups){
-            if(i.groupName === groupname){
+        for (let i of this._groups) {
+            if (i.groupName === groupname) {
                 result = Number(i.groupID);
             }
         }
@@ -92,8 +111,8 @@ class HPDatabase {
 
     private memberName2ID = (membername: string): string => {
         let result = 0;
-        for (let i of this._members){
-            if(i.memberName === membername){
+        for (let i of this._members) {
+            if (i.memberName === membername) {
                 result = Number(i.memberID);
             }
         }

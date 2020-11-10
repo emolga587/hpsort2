@@ -31,7 +31,7 @@ export default class MemberPicture extends React.Component<Props, State> {
                     <CardMedia
                         component="img"
                         alt={this.props.name}
-                        image={`/member_pics/${this.props.name}.jpg`}
+                        image={`member_pics/${this.props.name}.jpg`}
                         title="Contemplative Reptile"
                         style={styles.media}
                     />

@@ -5,3 +5,11 @@
 .MuiTypography-h5 {
   font-size: 1em;
 }
+
+h2 {
+  font-family: 'Kosugi', sans-serif;
+}
+
+a {
+  color:#444;
+}
