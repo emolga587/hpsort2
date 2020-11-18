@@ -48,7 +48,7 @@ class Home extends React.Component<Props, State> {
           <p><a href="https://twitter.com/xxgentaroxx">@xxgentaroxx</a>大先生による、歴代ハロプロメンバーの<a href="https://github.com/xxgentaroxx/HP_DB">オープンデータ</a>から自動生成しています。</p>
           <p>ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。
           従来の推しソートで一般的だったマージソートと比較して、比較回数が少なくなるほか、ソート後半が上位メン決定戦になる特徴があります。</p>
-          <p>ソートは全て端末のJavaScriptで行われるため、サーバーに結果等が送信されることはありません。</p>
+          <p>「引き分け」ボタンを1回押すと比較回数が4-5回前後減ります。急いでいる方は積極的に活用してください。</p>
           <p>連絡先: <a href="https://twitter.com/emolga587">@emolga587</a></p>
         </Grid>
       </Grid>
