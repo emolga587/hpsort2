@@ -71,7 +71,7 @@ export default class SortPage extends React.Component<Props, State> {
         </Grid>
         <Grid container item xs={12} justify="center">
           <p>
-          <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#00ACEE", color: "#ffffff" }}><FontAwesomeIcon icon={faTwitter} />&nbsp;ツイート</Button>
+            <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#00ACEE", color: "#ffffff" }}><FontAwesomeIcon icon={faTwitter} />&nbsp;ツイート</Button>
           </p>
         </Grid>
       </Grid>
@@ -88,6 +88,8 @@ export default class SortPage extends React.Component<Props, State> {
             <Grid container item xs={6} justify="center">
               <MemberPicture name={this.sort.lastChallenge[0]}
                 onClick={() => {
+                  this.sort.backable = true;
+                  this.sort.prev_items = JSON.parse(JSON.stringify(this.sort.items));
                   this.sort.addResult(this.sort.lastChallenge[0], this.sort.lastChallenge[1]);
                   this.setState({ result: this.sort.sort() });
                 }} />
@@ -95,6 +97,8 @@ export default class SortPage extends React.Component<Props, State> {
             <Grid container item xs={6} justify="center">
               <MemberPicture name={this.sort.lastChallenge[1]}
                 onClick={() => {
+                  this.sort.backable = true;
+                  this.sort.prev_items = JSON.parse(JSON.stringify(this.sort.items));
                   this.sort.addResult(this.sort.lastChallenge[1], this.sort.lastChallenge[0]);
                   this.setState({ result: this.sort.sort() });
                 }} />
@@ -102,11 +106,27 @@ export default class SortPage extends React.Component<Props, State> {
             <Grid container item xs={12} justify="center">
               <Button variant="contained" size="large" style={{ backgroundColor: "white", color: "#444" }}
                 onClick={() => {
+                  this.sort.backable = true;
+                  this.sort.prev_items = JSON.parse(JSON.stringify(this.sort.items));
                   this.sort.addEqual(this.sort.lastChallenge[0], this.sort.lastChallenge[1]);
                   this.setState({ result: this.sort.sort() });
                 }}
               >
                 引き分け
+            </Button>
+            </Grid>
+            <Grid container item xs={12} justify="center">
+              <Button variant="contained" size="large" style={{ backgroundColor: "#444", color: "white" }}
+                onClick={() => {
+                  if(this.sort.backable){
+                    this.sort.back();
+                    this.setState({ result: this.sort.sort() });
+                  } else {
+                    alert("これ以上戻れません！")
+                  }
+                }}
+              >
+                ひとつ戻る
             </Button>
             </Grid>
           </Grid>

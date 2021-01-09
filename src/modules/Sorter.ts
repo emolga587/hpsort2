@@ -11,15 +11,17 @@ interface MemberDictionary {
 
 // ソートのクラス
 export default class Sorter {
-    private _items: MemberDictionary = {};
-    private _array: string[];
-    private _lastChallenge: string[] = [];
-    private _currentRound: number = 0;
+    items: MemberDictionary = {};
+    prev_items: MemberDictionary = {};
+    backable: boolean = false;
+    protected _array: string[];
+    protected _lastChallenge: string[] = [];
+    protected _currentRound: number = 0;
 
     constructor(array: string[]) {
         this._array = this.shuffle(array);
         for (let item of this._array) {
-            this._items[item] = {
+            this.items[item] = {
                 less: [],
                 equal: [],
                 greater: []
@@ -31,9 +33,9 @@ export default class Sorter {
         const rounds = this._array.length * (this._array.length - 1);
         let current = 0;
         for (let name of this._array) {
-            current += this._items[name].equal.length;
-            current += this._items[name].greater.length;
-            current += this._items[name].less.length;
+            current += this.items[name].equal.length;
+            current += this.items[name].greater.length;
+            current += this.items[name].less.length;
         }
         return Math.round(Math.sqrt(current / rounds) * 100 * 10) / 10;
     }
@@ -67,6 +69,12 @@ export default class Sorter {
         }
     }
 
+    back() {
+        this.items = JSON.parse(JSON.stringify(this.prev_items));
+        this.backable = false;
+        this._currentRound = this._currentRound - 2;
+    }
+
     addResult(greater: string, less: string) {
         if (!(this._array.includes(less) && this._array.includes(greater))) {
             console.log(this._array)
@@ -75,22 +83,22 @@ export default class Sorter {
         if (less === greater) { return }
         // less側
         if (this.notExist(greater, less)) {
-            this._items[less].greater.push(greater);
-            for (let item of this._items[less].equal) {
+            this.items[less].greater.push(greater);
+            for (let item of this.items[less].equal) {
                 this.addResult(greater, item);
             }
-            for (let item of this._items[less].less) {
+            for (let item of this.items[less].less) {
                 this.addResult(greater, item);
             }
         }
 
         // greater側
         if (this.notExist(less, greater)) {
-            this._items[greater].less.push(less);
-            for (let item of this._items[greater].equal) {
+            this.items[greater].less.push(less);
+            for (let item of this.items[greater].equal) {
                 this.addResult(item, less);
             }
-            for (let item of this._items[greater].greater) {
+            for (let item of this.items[greater].greater) {
                 this.addResult(item, less);
             }
         }
@@ -104,29 +112,29 @@ export default class Sorter {
         if (val1 === val2) { return }
         // equalの追加
         if (this.notExist(val2, val1)) {
-            this._items[val1].equal.push(val2);
-            for (let item of this._items[val1].equal) {
+            this.items[val1].equal.push(val2);
+            for (let item of this.items[val1].equal) {
                 this.addEqual(item, val2);
             }
         }
         if (this.notExist(val1, val2)) {
-            this._items[val2].equal.push(val1);
-            for (let item of this._items[val2].equal) {
+            this.items[val2].equal.push(val1);
+            for (let item of this.items[val2].equal) {
                 this.addEqual(item, val1);
             }
         }
 
         // 大小情報の同期
-        for (let item of this._items[val1].greater) {
+        for (let item of this.items[val1].greater) {
             this.addResult(item, val2);
         }
-        for (let item of this._items[val1].less) {
+        for (let item of this.items[val1].less) {
             this.addResult(val2, item);
         }
-        for (let item of this._items[val2].greater) {
+        for (let item of this.items[val2].greater) {
             this.addResult(item, val1);
         }
-        for (let item of this._items[val2].less) {
+        for (let item of this.items[val2].less) {
             this.addResult(val1, item);
         }
     }
@@ -135,10 +143,10 @@ export default class Sorter {
     rank(member: string) {
         let rank = 1;
         let continue_flag = true;
-        for(let i = 0; i < this.array.length && continue_flag; i++){
+        for (let i = 0; i < this.array.length && continue_flag; i++) {
             continue_flag = this.array[i] !== member
-            if(i > 0){
-                if(this._items[this.array[i]].equal.includes(this.array[i - 1])){
+            if (i > 0) {
+                if (this.items[this.array[i]].equal.includes(this.array[i - 1])) {
                     continue;
                 }
             }
@@ -149,11 +157,11 @@ export default class Sorter {
 
     private notExist(item: string, dest: string) {
         return (
-            !(this._items[dest].equal.includes(item) || this._items[dest].greater.includes(item) || this._items[dest].less.includes(item))
+            !(this.items[dest].equal.includes(item) || this.items[dest].greater.includes(item) || this.items[dest].less.includes(item))
         );
     }
 
-    private shuffle([...arr]) {
+    protected shuffle([...arr]) {
         let m = arr.length;
         while (m) {
             const i = Math.floor(Math.random() * m--);
@@ -163,21 +171,21 @@ export default class Sorter {
     };
 
     // 大小を比較する（情報不足で比較出来なかった場合は例外を吐く）
-    private compare(greater: string, less: string) {
+    protected compare(greater: string, less: string) {
         this._lastChallenge = [greater, less];
         if (greater === less) {
             return false;
         }
-        if (this._items[greater].less.includes(less)) {
+        if (this.items[greater].less.includes(less)) {
             return true;
-        } else if (this._items[greater].equal.includes(less) || this._items[greater].greater.includes(less)) {
+        } else if (this.items[greater].equal.includes(less) || this.items[greater].greater.includes(less)) {
             return false;
         } else {
             throw new Error("ソート不成立");
         }
     }
 
-    private fordJohnson = (arr: string[]): string[] => {
+    protected fordJohnson = (arr: string[]): string[] => {
         // Jacobsthal配列
         const JACOBSTHAL = [1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525];
 
