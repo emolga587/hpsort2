@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Sorter from "../modules/Sorter";
 import MemberPicture from "./MemberPicture";
+import ResultPicture from "./ResultPicture";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -35,24 +36,31 @@ export default class SortPage extends React.Component<Props, State> {
   }
   render() {
     if (this.state.result) {
-      let list: JSX.Element[] = [];
+      let rankTable: JSX.Element[] = [];
+      let rankPicture: JSX.Element[] = [];
       let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
       for (let i of this.sort.array) {
         let groupname = hpDB.groupNameByMemberName(i);
-        list.push(<TableRow key={i}><TableCell align="left">{this.sort.rank(i)}位</TableCell><TableCell align="left">{i}</TableCell><TableCell><span style={{ color: hpDB.groupName2ColorCode(hpDB.groupNameByMemberName(i)) }}><FontAwesomeIcon icon={faUserFriends} /></span> {groupname}</TableCell></TableRow>);
+        rankTable.push(<TableRow key={i}><TableCell align="left">{this.sort.rank(i)}位</TableCell><TableCell align="left">{i}</TableCell><TableCell><span style={{ color: hpDB.groupName2ColorCode(hpDB.groupNameByMemberName(i)) }}><FontAwesomeIcon icon={faUserFriends} /></span> {groupname}</TableCell></TableRow>);
         if (this.sort.rank(i) <= 10) {
           tweet_url += encodeURI(`${this.sort.rank(i)}位: ${i}\n`);
+          rankPicture.push(
+            <ResultPicture name={i} rank={this.sort.rank(i) + "位"}></ResultPicture>
+          );
         }
       }
       tweet_url += "&hashtags=" + encodeURI("ハロプロソート") + "&url=" + encodeURI("https://16be.at/sort/");
       console.log(tweet_url);
-      return <Grid container spacing={1}>
+      return <Grid container>
         <Grid container item xs={12} justify="center">
           <h3>{this.props.sortName}結果</h3>
         </Grid>
         <Grid container item xs={12} justify="center" spacing={0}>
           【ラウンド{this.sort.currentRound} - {this.sort.progress}%】
             </Grid>
+        <Grid container justify="center">
+          {rankPicture}
+        </Grid>
         <Grid container item xs={12} justify="center">
           <TableContainer component={Paper}>
             <Table size="small" aria-label="a dense table">
@@ -64,7 +72,7 @@ export default class SortPage extends React.Component<Props, State> {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {list}
+                {rankTable}
               </TableBody>
             </Table>
           </TableContainer>
@@ -118,7 +126,7 @@ export default class SortPage extends React.Component<Props, State> {
             <Grid container item xs={12} justify="center">
               <Button variant="contained" size="large" style={{ backgroundColor: "#444", color: "white" }}
                 onClick={() => {
-                  if(this.sort.backable){
+                  if (this.sort.backable) {
                     this.sort.back();
                     this.setState({ result: this.sort.sort() });
                   } else {

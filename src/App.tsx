@@ -40,7 +40,7 @@ class Home extends React.Component<Props, State> {
           <h2>ハロプロソート(updated)</h2>
         </Grid>
         <Grid container item xs={12} justify="center" spacing={0}>
-          <p>(updated)なハロプロソートです。<br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/1/10 一部機能未完成)</p>
+          <p>(updated)なハロプロソートです。<br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/1/10 結果ページのサムネイル表示に対応)</p>
         </Grid>
         <Grid container item xs={12} justify="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justify="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
