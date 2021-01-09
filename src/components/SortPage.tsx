@@ -120,7 +120,7 @@ export default class SortPage extends React.Component<Props, State> {
                   this.setState({ result: this.sort.sort() });
                 }}
               >
-                引き分け
+                両方勝ち
             </Button>
             </Grid>
             <Grid container item xs={12} justify="center">
