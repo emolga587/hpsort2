@@ -22,6 +22,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# 著作権対策
-/public/member_pics/*.jpg
