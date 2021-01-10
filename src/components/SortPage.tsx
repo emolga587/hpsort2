@@ -78,6 +78,7 @@ export default class SortPage extends React.Component<Props, State> {
           </TableContainer>
         </Grid>
         <Grid container item xs={12} justify="center">
+          <br />
           <p>
             <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#00ACEE", color: "#ffffff" }}><FontAwesomeIcon icon={faTwitter} />&nbsp;ツイート</Button>
           </p>

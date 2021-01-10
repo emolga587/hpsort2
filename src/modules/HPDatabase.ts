@@ -3,6 +3,7 @@ import HP_DB_MEMBERS from "../HP_DB/member.csv";
 import HP_DB_GROUPS from "../HP_DB/group.csv";
 import HP_DB_GROUP_COLORS from "../data/group_color.csv";
 import HP_DB_JOINS from "../HP_DB/join.csv";
+import { ConfirmationNumberOutlined } from "@material-ui/icons";
 
 // インターフェイス
 interface Member {
@@ -44,6 +45,17 @@ class HPDatabase {
         this._joins = this.fetchCSV(HP_DB_JOINS);
         this._group_colors = this.fetchCSV(HP_DB_GROUP_COLORS);
     }
+
+    get allStars(): string[] {
+        let result: string[] = [];
+        for (let i of this._members) {
+            if (i.debutDate) {
+                result.push(i.memberName);
+            }
+        }
+        return result;
+    }
+
     get currentHPMembers(): string[] {
         let result: string[] = [];
         for (let i of this._members) {
@@ -65,11 +77,21 @@ class HPDatabase {
     }
 
     groupNameByMemberName = (memberName: string): string => {
-        let result = "Hello! Project"
+        let result = "Hello! Project (OG)"
+        let joinDate = Date.parse("2099/12/31");
+        let gradDate = Date.parse("1970/1/1");
         const memberID = this.memberName2ID(memberName);
         for (let i of this._joins) {
-            if (i.memberID === memberID && !i.gradDate) {
-                result = this.groupName(i.groupID);
+            if (i.memberID === memberID) {
+                if(i.gradDate && Date.parse(i.gradDate) >= gradDate){
+                    if(Date.parse(i.joinDate) <= joinDate ||　Date.parse(i.gradDate) > gradDate){
+                        joinDate = Date.parse(i.joinDate);
+                        gradDate = Date.parse(i.gradDate);
+                        result = this.groupName(i.groupID, i.gradDate) + " (OG)";
+                    }
+                } else if(!i.gradDate) {
+                    result = this.groupName(i.groupID);
+                }
             }
         }
         return result;
@@ -89,7 +111,7 @@ class HPDatabase {
     }
 
     groupName2ColorCode = (id: string): string => {
-        let result = "#2196F3";
+        let result = "#aaaaaa";
         let groupID = this.groupName2ID(id)
         for (let i of this._group_colors) {
             if (i.groupID === groupID) {
@@ -129,11 +151,21 @@ class HPDatabase {
         return result;
     }
 
-    private groupName = (id: string): string => {
-        let result = "";
+    private groupName = (id: string, date: string = ""): string => {
+        const dateNum = Date.parse(date);
+        let result = "Hello! Project";
         for (let i of this._groups) {
-            if (i.groupID === id) {
-                result = i.groupName;
+            if (i.groupName === "Gatas Brilhantes H.P."){
+                continue;
+            }
+            if(date){
+                if (i.groupID === id && (Date.parse(i.dissolveDate) >= dateNum || !i.dissolveDate) && Date.parse(i.formDate) <= dateNum) {
+                    result = i.groupName;
+                }
+            } else {
+                if (i.groupID === id) {
+                    result = i.groupName;
+                } 
             }
         }
         return result;
