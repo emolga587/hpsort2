@@ -56,12 +56,12 @@ export default class SortPage extends React.Component<Props, State> {
           <h3>{this.props.sortName}結果</h3>
         </Grid>
         <Grid container item xs={12} justify="center" spacing={0}>
-          【ラウンド{this.sort.currentRound} - {this.sort.progress}%】
+          【ラウンド{this.sort.currentRound} - {this.sort.progress}%】<br /><br />
             </Grid>
-        <Grid container justify="center">
+        <Grid container item xs={12} md={6} justify="center">
           {rankPicture}
         </Grid>
-        <Grid container item xs={12} justify="center">
+        <Grid container item xs={12} md={6} justify="center">
           <TableContainer component={Paper}>
             <Table size="small" aria-label="a dense table">
               <TableHead>
