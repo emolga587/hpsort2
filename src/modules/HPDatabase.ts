@@ -3,7 +3,6 @@ import HP_DB_MEMBERS from "../HP_DB/member.csv";
 import HP_DB_GROUPS from "../HP_DB/group.csv";
 import HP_DB_GROUP_COLORS from "../data/group_color.csv";
 import HP_DB_JOINS from "../HP_DB/join.csv";
-import { ConfirmationNumberOutlined } from "@material-ui/icons";
 
 // インターフェイス
 interface Member {
@@ -47,9 +46,11 @@ class HPDatabase {
     }
 
     get allStars(): string[] {
+        let members: string[] = [];
         let result: string[] = [];
-        for (let i of this._members) {
-            if (i.debutDate) {
+        for (let i of this._members.concat().reverse()) {
+            if (i.debutDate && !members.includes(i.memberID)) {
+                members.push(i.memberID);
                 result.push(i.memberName);
             }
         }
