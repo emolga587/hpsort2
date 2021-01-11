@@ -6,7 +6,6 @@ import "./App.css";
 
 import Layout from "./components/Layout";
 import SortPage from "./components/SortPage";
-import BogoSortPage from "./components/BogoSortPage";
 import hpDB from "./modules/HPDatabase";
 
 interface Props { }
@@ -26,7 +25,6 @@ export default class App extends React.Component<Props, State> {
           <Route path="/hptrainee" component={HPAllTrainee} />
           <Route path="/trainee" component={Trainee} />
           <Route path="/allstars" component={AllStars} />
-          <Route path="/bogo" component={Bogo} />
         </Router>
       </Layout>
     );
@@ -80,11 +78,5 @@ class Trainee extends React.Component<Props, State> {
 class AllStars extends React.Component<Props, State> {
   render() {
     return <div><SortPage members={hpDB.allStars} sortName="歴代ハロプロ全員ソート" /></div>;
-  }
-}
-
-class Bogo extends React.Component<Props, State> {
-  render() {
-    return <div><BogoSortPage members={hpDB.currentHPMembers} sortName="ハロプロボゴソート" /></div>;
   }
 }
