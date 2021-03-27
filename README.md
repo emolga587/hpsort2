@@ -54,6 +54,6 @@ MITライセンスとします。
 ただし、public/member_pics/以下の画像、src/HP_DB/以下のデータに関してはこの限りではありません。
 
 ## 謝辞
-[じゅんくどぅ](https://twitter.com/junkudu)様、ブラックハウリング様(先代、先々代ソート管理人)
+[じゅんくどぅ](https://twitter.com/junkudu)様、ブラックハウリング様(先代、先々代ソート管理人)
 
 [げんたろう](https://twitter.com/xxgentaroxx)大先生(HP_DBメンテナ)
