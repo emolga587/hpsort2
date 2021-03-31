@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Box } from "@material-ui/core";
+import hpDB from "../modules/HPDatabase";
 
 interface Props {
     name: string;
@@ -15,6 +16,13 @@ interface State { }
 
 export default class ResultPicture extends React.Component<Props, State> {
     render() {
+        let img_dir: string;
+        if (Number(hpDB.memberName2ID(this.props.name)) < 9000) {
+            img_dir = "member_pics/";
+        } else {
+            img_dir = "extra_pics/";
+        }
+
         const styles =
         {
             card: {
@@ -32,7 +40,7 @@ export default class ResultPicture extends React.Component<Props, State> {
                     <CardMedia
                         component="img"
                         alt={this.props.name}
-                        image={`member_pics/${this.props.name}.jpg`}
+                        image={`${img_dir}${this.props.name}.jpg`}
                         title="Contemplative Reptile"
                         style={styles.media}
                     />

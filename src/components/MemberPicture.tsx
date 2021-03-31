@@ -25,13 +25,21 @@ export default class MemberPicture extends React.Component<Props, State> {
                 height: "300px"
             }
         };
+
+        let img_dir: string;
+        if (Number(hpDB.memberName2ID(this.props.name)) < 9000) {
+            img_dir = "member_pics/";
+        } else {
+            img_dir = "extra_pics/";
+        }
+
         return (
             <Card onClick={this.props.onClick} style={styles.card}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
                         alt={this.props.name}
-                        image={`member_pics/${this.props.name}.jpg`}
+                        image={`${img_dir}${this.props.name}.jpg`}
                         title="Contemplative Reptile"
                         style={styles.media}
                     />

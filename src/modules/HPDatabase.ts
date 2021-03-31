@@ -4,6 +4,10 @@ import HP_DB_GROUPS from "../HP_DB/group.csv";
 import HP_DB_GROUP_COLORS from "../data/group_color.csv";
 import HP_DB_JOINS from "../HP_DB/join.csv";
 
+import EX_DB_MEMBERS from "../data/extra_member.csv";
+import EX_DB_GROUPS from "../data/extra_group.csv";
+import EX_DB_JOINS from "../data/extra_join.csv";
+
 // インターフェイス
 interface Member {
     memberID: string;
@@ -39,9 +43,9 @@ class HPDatabase {
     private _group_colors: GroupColor[] = [];
 
     constructor() {
-        this._members = this.fetchCSV(HP_DB_MEMBERS);
-        this._groups = this.fetchCSV(HP_DB_GROUPS);
-        this._joins = this.fetchCSV(HP_DB_JOINS);
+        this._members = this.fetchCSV(HP_DB_MEMBERS).concat(this.fetchCSV(EX_DB_MEMBERS));
+        this._groups = this.fetchCSV(HP_DB_GROUPS).concat(this.fetchCSV(EX_DB_GROUPS));
+        this._joins = this.fetchCSV(HP_DB_JOINS).concat(this.fetchCSV(EX_DB_JOINS));
         this._group_colors = this.fetchCSV(HP_DB_GROUP_COLORS);
     }
 
@@ -60,7 +64,7 @@ class HPDatabase {
     get currentHPMembers(): string[] {
         let result: string[] = [];
         for (let i of this._members) {
-            if (i.debutDate && !i.HPgradDate) {
+            if (i.HPjoinDate && i.debutDate && !i.HPgradDate) {
                 result.push(i.memberName);
             }
         }
@@ -70,7 +74,7 @@ class HPDatabase {
     get currentHPMembersIncludeTrainee(): string[] {
         let result: string[] = [];
         for (let i of this._members) {
-            if (!i.HPgradDate) {
+            if (i.HPjoinDate && !i.HPgradDate) {
                 result.push(i.memberName);
             }
         }
@@ -132,7 +136,7 @@ class HPDatabase {
         return result.toString();
     }
 
-    private memberName2ID = (membername: string): string => {
+    memberName2ID = (membername: string): string => {
         let result = 0;
         for (let i of this._members) {
             if (i.memberName === membername) {
