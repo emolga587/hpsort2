@@ -43,7 +43,7 @@ npm run build
 
 ## 不具合報告、改善要望、連絡先
 
-### 非技術者の方
+### 開発者以外の方
 [Twitter](https://twitter.com/emolga587)へお願いします。
 
 ### 開発者の方
