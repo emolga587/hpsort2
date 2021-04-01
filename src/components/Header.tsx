@@ -12,7 +12,7 @@ interface State { }
 export default class Header extends React.Component<Props, State> {
   render() {
     return (
-      <AppBar position="static" style={{background: 'linear-gradient(45deg, #11A316 30%, #11BF16 70%, #11A316 90%)'}}>
+      <AppBar position="static" style={{background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 70%, #2196F3 90%)'}}>
         <Toolbar>
           <Typography variant="h5" style={{flexGrow: 1, fontFamily: "Kosugi Maru"}}>{this.props.children}</Typography>
           <IconButton
@@ -20,7 +20,7 @@ export default class Header extends React.Component<Props, State> {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
-            href="home"
+            href="./"
           >
             <HomeIcon />
           </IconButton>
