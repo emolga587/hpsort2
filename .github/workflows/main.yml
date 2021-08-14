@@ -23,16 +23,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: checkout repo content
+      - name: Checkout repo content
         uses: actions/checkout@v2
         
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
 
-      - name: list pwd
-        run: pwd
-        working-directory: ./public/member_pics
+      - name: Install Python script dependancies
+        run: pip3 install pillow requests beautifulsoup4
         
       - name: Getting ufg-member-pics
         run: python3 ../../script/get-ufg-pic.py
