@@ -35,7 +35,7 @@ jobs:
         working-directory: ./public/member_pics
         
       - name: Getting ufg-member-pics
-        run: python3 ./script/get-ufg-pic.py
+        run: python3 ../../script/get-ufg-pic.py
         working-directory: ./public/member_pics
           
         
