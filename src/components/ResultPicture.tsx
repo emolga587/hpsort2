@@ -1,15 +1,15 @@
 import React from "react";
-
+import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Box } from "@material-ui/core";
+import { Box, GridSize } from "@material-ui/core";
 import hpDB from "../modules/HPDatabase";
 
 interface Props {
     name: string;
-    rank: string;
+    rank: number;
 }
 
 interface State { }
@@ -25,35 +25,55 @@ export default class ResultPicture extends React.Component<Props, State> {
 
         const styles =
         {
-            card: {
-                maxWidth: 150,
-            },
             media: {
-                width: 150,
-                height: 120,
+                width: 96,
+                height: 80,
                 zoom: 1
             }
         };
+
+        let name_font_size = 14;
+        let card_width: GridSize = 4;
+
+        if (this.props.rank === 1) {
+            styles.media.width *= 3;
+            styles.media.height *= 3;
+            name_font_size += 2;
+            card_width = 12;
+        } else if (this.props.rank <= 3) {
+
+            styles.media.width *= 3 / 2;
+            styles.media.height *= 3 / 2;
+            name_font_size += 1;
+            card_width = 6;
+        } else if (this.props.rank >= 7) {
+            styles.media.width *= 8 / 9;
+            name_font_size -= 2;
+            card_width = 3;
+        }
+
         return (
-            <Box m={1}>
-                <Card style={styles.card}>
-                    <CardMedia
-                        component="img"
-                        alt={this.props.name}
-                        image={`${img_dir}${this.props.name}.jpg`}
-                        title="Contemplative Reptile"
-                        style={styles.media}
-                    />
-                    <CardContent style={{paddingTop: 10, paddingBottom: 10, textAlign: "center"}}>
-                        <Typography component="p" style={{fontSize: 15}}>
-                            {this.props.rank}
-                        </Typography>
-                        <Typography component="p" style={{fontSize: 16}}>
-                            {this.props.name}
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Box>
+            <Grid container item xs={card_width} justifyContent="center">
+                <Box m={0.5}>
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            alt={this.props.name}
+                            image={`${img_dir}${this.props.name}.jpg`}
+                            title="Contemplative Reptile"
+                            style={styles.media}
+                        />
+                        <CardContent style={{ paddingTop: 8, paddingBottom: 8, paddingLeft: 5, paddingRight: 5, textAlign: "center" }}>
+                            <Typography component="p" style={{ fontSize: name_font_size }}>
+                                {this.props.rank}位
+                            </Typography>
+                            <Typography component="p" style={{ fontSize: name_font_size }}>
+                                {this.props.name}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Box>
+            </Grid>
         );
     }
 }

@@ -37,11 +37,9 @@ export default class SortPage extends React.Component<Props, State> {
   render() {
     if (this.state.result) {
       let rankTable: JSX.Element[] = [];
-      let rankPicture: JSX.Element[] = [];
       let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
-
       let max_output = 10;
-      if(this.props.members.length < 15){
+      if (this.props.members.length < 15) {
         max_output = 5;
       }
 
@@ -50,24 +48,46 @@ export default class SortPage extends React.Component<Props, State> {
         rankTable.push(<TableRow key={i}><TableCell align="left">{this.sort.rank(i)}位</TableCell><TableCell align="left">{i}</TableCell><TableCell><span style={{ color: hpDB.groupName2ColorCode(hpDB.groupNameByMemberName(i)) }}><FontAwesomeIcon icon={faUserFriends} /></span> {groupname}</TableCell></TableRow>);
         if (this.sort.rank(i) <= max_output) {
           tweet_url += encodeURI(`${this.sort.rank(i)}位: ${i}\n`);
-          rankPicture.push(
-            <ResultPicture key={i} name={i} rank={this.sort.rank(i) + "位"}></ResultPicture>
-          );
         }
       }
+
+      const getResultPictures = (min: Number, max: Number) => {
+        const result: JSX.Element[] = [];
+        for (let i of this.sort.array) {
+          if (this.sort.rank(i) >= min && this.sort.rank(i) <= max) {
+            result.push(
+              <ResultPicture key={i} name={i} rank={this.sort.rank(i)}></ResultPicture>
+            );
+          }
+        }
+        return result;
+      }
+
       tweet_url += "&hashtags=" + encodeURI("ハロプロソート") + "&url=" + encodeURI("https://16be.at/sort/");
       console.log(tweet_url);
-      return <Grid container>
+      return <Grid container alignItems="flex-start">
         <Grid container item xs={12} justifyContent="center">
-          <h3>{this.props.sortName}結果</h3>
+          <h2 style={{ marginBottom: 0 }}>{this.props.sortName}結果</h2>
         </Grid>
-        <Grid container item xs={12} justifyContent="center" spacing={0}>
-          【ラウンド{this.sort.currentRound} - {this.sort.progress}%】<br /><br />
-            </Grid>
-        <Grid container item xs={12} md={6} justifyContent="center">
-          {rankPicture}
+        <Grid container item xs={12} justifyContent="center">
+          <p style={{ marginTop: 0, marginBottom: 10 }}>【ラウンド{this.sort.currentRound} - {this.sort.progress}%】</p>
         </Grid>
-        <Grid container item xs={12} md={6} justifyContent="center">
+        <Grid container item md={6} xs={12} justifyContent="center">
+          <Grid container item xs={12} justifyContent="center">
+            {getResultPictures(1, 1)}
+          </Grid>
+          <Grid container item xs={12} justifyContent="center">
+            {getResultPictures(2, 3)}
+          </Grid>
+          <Grid container item xs={12} justifyContent="center">
+            {getResultPictures(4, 6)}
+          </Grid>
+          <Grid container item xs={12} justifyContent="center">
+            {getResultPictures(7, 10)}
+          </Grid>
+        </Grid>
+
+        <Grid container item md={6} xs={12} justifyContent="center">
           <TableContainer component={Paper}>
             <Table size="small" aria-label="a dense table">
               <TableHead>
@@ -95,10 +115,10 @@ export default class SortPage extends React.Component<Props, State> {
         <div style={{ textAlign: "center" }}>
           <Grid container spacing={1}>
             <Grid container item xs={12} justifyContent="center">
-              <h3 style={{}}>{this.props.sortName}</h3>
+              <h2 style={{ marginBottom: 0 }}>{this.props.sortName}</h2>
             </Grid>
-            <Grid container item xs={12} justifyContent="center" spacing={0}>
-              【ラウンド{this.sort.currentRound} - {this.sort.progress}%】
+            <Grid container item xs={12} justifyContent="center">
+              <p style={{ marginTop: 0, marginBottom: 5 }}>【ラウンド{this.sort.currentRound} - {this.sort.progress}%】</p>
             </Grid>
             <Grid container item xs={6} justifyContent="center">
               <MemberPicture name={this.sort.lastChallenge[0]}
@@ -128,7 +148,7 @@ export default class SortPage extends React.Component<Props, State> {
                 }}
               >
                 両方勝ち
-            </Button>
+              </Button>
             </Grid>
             <Grid container item xs={12} justifyContent="center">
               <Button variant="contained" size="large" style={{ backgroundColor: "#444", color: "white" }}
@@ -142,7 +162,7 @@ export default class SortPage extends React.Component<Props, State> {
                 }}
               >
                 ひとつ戻る
-            </Button>
+              </Button>
             </Grid>
           </Grid>
         </div>
