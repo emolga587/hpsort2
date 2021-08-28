@@ -9,6 +9,9 @@ interface MemberDictionary {
     [id: string]: Member;
 }
 
+// ユーザー定義の例外
+class UndefinedOrderError extends Error {}
+
 // ソートのクラス
 export default class Sorter {
     items: MemberDictionary = {};
@@ -59,7 +62,7 @@ export default class Sorter {
             this._array = this.fordJohnson(this._array.concat());
             return true;
         } catch (e) {
-            if (e.message === "ソート不成立") {
+            if (e instanceof UndefinedOrderError) {
                 this._currentRound++;
                 return false;
             } else {
@@ -181,7 +184,7 @@ export default class Sorter {
         } else if (this.items[greater].equal.includes(less) || this.items[greater].greater.includes(less)) {
             return false;
         } else {
-            throw new Error("ソート不成立");
+            throw new UndefinedOrderError();
         }
     }
 
