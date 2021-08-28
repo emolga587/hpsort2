@@ -43,6 +43,8 @@ for member_profile_page_link in group_member_link:
     print(member_profile_page_link)
     print(member_pic_link)
     urllib.request.urlretrieve(member_pic_link, member_name + '.jpg')
+    img = Image.open(member_name + '.jpg')
+    img.save(member_name + '.jpg', 'jpeg', quality=85)
     print('\n\n')
 #↑各メンバーの画像取得
 
@@ -77,6 +79,6 @@ for pagelink in og_artists('a'):
 #↑各アーティストの画像URL取得
     urllib.request.urlretrieve(og_pic_link, og_name + '.png')
     img = Image.open(og_name + '.png')
-    img.save(og_name + '.jpg', 'jpeg', quality=100)
+    img.save(og_name + '.jpg', 'jpeg', quality=85)
     os.remove(og_name + '.png')
 #↑保存及び変換

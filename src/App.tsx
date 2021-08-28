@@ -46,7 +46,7 @@ class Home extends React.Component<Props, State> {
           <h2>ハロプロソート(updated)</h2>
         </Grid>
         <Grid container item xs={12} justify="center" spacing={0}>
-          <p>(updated)なハロプロソートです。<br />ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。<br /><br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/8/14 新メンバー・アー写の更新)</p>
+          <p>(updated)なハロプロソートです。<br />ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。<br /><br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/8/29 研修生新メンバーの更新)</p>
         </Grid>
         <Grid container item xs={12} justify="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justify="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
@@ -57,7 +57,7 @@ class Home extends React.Component<Props, State> {
         */}
         <Grid container item xs={12} justify="center" spacing={0}>
           <p><a href="https://twitter.com/xxgentaroxx" target="_blank" rel="noreferrer">@xxgentaroxx</a>大先生による、歴代ハロプロメンバーの<a href="https://github.com/xxgentaroxx/HP_DB" target="_blank" rel="noreferrer">オープンデータ</a>から自動生成しています。</p>
-          <p>「引き分け」ボタンを1回押すと比較回数が4-5回減ります。急いでいる方は積極的に活用してください。</p>
+          <p>「引き分け」ボタンを1回押すと比較回数が4-5回減ります。急いでいる方は活用してください。</p>
           <p>所属は「直近まで所属している(た)グループ・ユニットのうち、加入日が最も早いもの」としています。</p>
         </Grid>
         <Grid container item xs={12} justify="center" spacing={0}>
