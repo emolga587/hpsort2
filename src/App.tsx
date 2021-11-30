@@ -46,7 +46,7 @@ class Home extends React.Component<Props, State> {
           <h2>ハロプロソート(updated)</h2>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(updated)なハロプロソートです。<br />ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。<br /><br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/8/29 研修生新メンバーの更新)</p>
+          <p>(updated)なハロプロソートです。<br />ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。<br /><br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/12/1 メンバー情報の更新)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
