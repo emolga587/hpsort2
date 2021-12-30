@@ -39,7 +39,7 @@ export default class SortPage extends React.Component<Props, State> {
       let rankTable: JSX.Element[] = [];
       let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
       let max_output = 10;
-      if (this.props.members.length < 15) {
+      if (this.props.members.length < 20) {
         max_output = 5;
       }
 
@@ -70,7 +70,7 @@ export default class SortPage extends React.Component<Props, State> {
           <h2 style={{ marginBottom: 0 }}>{this.props.sortName}結果</h2>
         </Grid>
         <Grid container item xs={12} justifyContent="center">
-          <p style={{ marginTop: 0, marginBottom: 10 }}>【ラウンド{this.sort.currentRound} - {this.sort.progress}%】</p>
+          <p style={{ marginTop: 0, marginBottom: 10 }}>ラウンド{this.sort.currentRound} - {this.sort.progress}%</p>
         </Grid>
         <Grid container item md={6} xs={12} justifyContent="center">
           <Grid container item xs={12} justifyContent="center">
@@ -118,7 +118,7 @@ export default class SortPage extends React.Component<Props, State> {
               <h2 style={{ marginBottom: 0 }}>{this.props.sortName}</h2>
             </Grid>
             <Grid container item xs={12} justifyContent="center">
-              <p style={{ marginTop: 0, marginBottom: 5 }}>【ラウンド{this.sort.currentRound} - {this.sort.progress}%】</p>
+              <p style={{ marginTop: 0, marginBottom: 5 }}>ラウンド{this.sort.currentRound} - {this.sort.progress}%</p>
             </Grid>
             <Grid container item xs={6} justifyContent="center">
               <MemberPicture name={this.sort.lastChallenge[0]}
@@ -151,7 +151,7 @@ export default class SortPage extends React.Component<Props, State> {
               </Button>
             </Grid>
             <Grid container item xs={12} justifyContent="center">
-              <Button variant="contained" size="large" style={{ backgroundColor: "#444", color: "white" }}
+              <Button size="large" style={{ backgroundColor: "#444", color: "white" }}
                 onClick={() => {
                   if (this.sort.backable) {
                     this.sort.back();

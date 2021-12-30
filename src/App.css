@@ -4,12 +4,19 @@
 
 .MuiTypography-h5 {
   font-size: 1em;
-}
-
-h2 {
-  font-family: 'Kosugi', sans-serif;
+  font-family: "Hiragino Kaku Gothic Pro", "BIZ UDPGothic", sans-serif;
+  font-weight: bold;
 }
 
 a {
   color:#444;
+}
+
+p {
+  font-size: 0.9em;
+  margin: 0.3em;
+}
+
+h1 {
+  margin-bottom: 0;
 }

@@ -19,11 +19,12 @@ interface State {
   round: number;
 }
 
+const TITLE = "ハロプロソート";
+
 export default class App extends React.Component<Props, State> {
   render() {
-    const title = "ハロプロソート(updated)";
     return (
-      <Layout title={title}>
+      <Layout title={TITLE}>
         <Router basename={process.env.PUBLIC_URL}>
           <Route exact path="/" component={Home} />
           <Route exact path="/pandasan" component={Panda} />
@@ -40,13 +41,23 @@ export default class App extends React.Component<Props, State> {
 
 class Home extends React.Component<Props, State> {
   render() {
+    function helpAlert() {
+      alert("選択を繰り返すことで自分だけのランキングを作ることができます。\n今まで気づかなかった「好き」を再発見するためにご利用ください。\nソートの結果はあなたにとってのランキングであり、メンバーの優劣を意味しません。")
+    }
     return (
       <Grid container item xs={12} justifyContent="center" style={{ textAlign: "center" }} spacing={1}>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <h2>ハロプロソート(updated)</h2>
+          <h1>{TITLE}</h1>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(updated)なハロプロソートです。<br />ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。<br /><br />定期更新終了を宣言された本家様を勝手に引き継ぎ、新技術を反映しつつ鋭意改良中です。<br />(2021/12/1 メンバー情報の更新)</p>
+          <p>ハロプロソートは、あなたの毎日に小さな喜びを届けていきます。小さな選択が、いつしか大きなランキングとなって、人生を輝かせていく…</p>
+          <p>そんなコンセプトで、お送りするツールです。</p>
+        </Grid>
+        <Grid container item xs={12} justifyContent="center" spacing={0}>
+          <p>(2021/12/1 メンバー情報の更新)</p>
+        </Grid>
+        <Grid container item xs={12} justifyContent="center" spacing={0}>
+          <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a></p>
         </Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
@@ -56,14 +67,15 @@ class Home extends React.Component<Props, State> {
         <Grid container item xs={12} justifyContent="center"><Button href="pandasan" style={{ background: 'linear-gradient(45deg, #11A316 30%, #11BF16 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>🐼パンダさんソート🐼</Button></Grid>
         */}
         <Grid container item xs={12} justifyContent="center" spacing={0}>
+          <p>定期更新終了を宣言された本家様を引き継ぎました。</p>
+          <p>ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。</p>
           <p><a href="https://twitter.com/xxgentaroxx" target="_blank" rel="noreferrer">@xxgentaroxx</a>大先生による、歴代ハロプロメンバーの<a href="https://github.com/xxgentaroxx/HP_DB" target="_blank" rel="noreferrer">オープンデータ</a>から自動生成しています。</p>
           <p>「引き分け」ボタンを1回押すと比較回数が4-5回減ります。急いでいる方は活用してください。</p>
-          <p>所属は「直近まで所属している(た)グループ・ユニットのうち、加入日が最も早いもの」としています。</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p>
-            <Button href="https://twitter.com/emolga587" target="_blank" variant="contained" size="small" style={{ backgroundColor: "#00ACEE", color: "#ffffff", textTransform: "none", margin: 1 }}><FontAwesomeIcon icon={faTwitter} />&nbsp;Twitter</Button>
-            <Button href="https://github.com/emolga587/hpsort2" target="_blank" variant="contained" size="small" style={{ backgroundColor: "#000000", color: "#ffffff", textTransform: "none", margin: 1 }}><FontAwesomeIcon icon={faGithub} />&nbsp;GitHub</Button>
+            <Button href="https://twitter.com/emolga587" target="_blank" size="small" style={{ backgroundColor: "#00ACEE", color: "#ffffff", textTransform: "none", margin: 2 }}><FontAwesomeIcon icon={faTwitter} />&nbsp;Twitter</Button>
+            <Button href="https://github.com/emolga587/hpsort2" target="_blank" size="small" style={{ backgroundColor: "#000000", color: "#ffffff", textTransform: "none", margin: 2 }}><FontAwesomeIcon icon={faGithub} />&nbsp;GitHub</Button>
           </p>
         </Grid>
       </Grid>

@@ -12,11 +12,10 @@ interface State { }
 export default class Header extends React.Component<Props, State> {
   render() {
     return (
-      <AppBar position="static" style={{background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 70%, #2196F3 90%)'}}>
+      <AppBar position="static" style={{color: 'white', backgroundColor: "rgb(33, 150, 243)", boxShadow: "none"}}>
         <Toolbar>
-          <Typography variant="h5" style={{flexGrow: 1, fontFamily: "Kosugi Maru"}}>{this.props.children}</Typography>
+          <Typography variant="h5" style={{flexGrow: 1, fontWeight: 500}}>{this.props.children}</Typography>
           <IconButton
-            aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
