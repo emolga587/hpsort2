@@ -58,7 +58,8 @@ class HPDatabase {
                 result.push(i.memberName);
             }
         }
-        return result;
+        // OCHA　NORMAはメジャーデビュー前のため上記条件に合致しないが追加する
+        return result.concat(this.membersByGroup("OCHA NORMA"));
     }
 
     get currentHPMembers(): string[] {
@@ -68,7 +69,8 @@ class HPDatabase {
                 result.push(i.memberName);
             }
         }
-        return result;
+        // OCHA　NORMAはメジャーデビュー前のため上記条件に合致しないが追加する
+        return result.concat(this.membersByGroup("OCHA NORMA"));
     }
 
     get currentHPMembersIncludeTrainee(): string[] {
