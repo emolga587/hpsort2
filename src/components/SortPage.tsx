@@ -39,7 +39,9 @@ export default class SortPage extends React.Component<Props, State> {
       let rankTable: JSX.Element[] = [];
       let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
       let max_output = 10;
-      if (this.props.members.length < 20) {
+      if (this.props.members.length < 10) {
+        max_output = 3;
+      } else if (this.props.members.length < 20) {
         max_output = 5;
       }
 

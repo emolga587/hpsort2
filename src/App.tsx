@@ -54,7 +54,7 @@ class Home extends React.Component<Props, State> {
           <p>そんなコンセプトで、お送りするツールです。</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(2021/12/1 メンバー情報の更新)</p>
+          <p>(2021/12/31 UIの微調整、メンバー情報更新)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a></p>
