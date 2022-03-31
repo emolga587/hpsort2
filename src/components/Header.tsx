@@ -12,14 +12,14 @@ interface State { }
 export default class Header extends React.Component<Props, State> {
   render() {
     return (
-      <AppBar position="static" style={{color: 'white', backgroundColor: "rgb(33, 150, 243)", boxShadow: "none"}}>
+      <AppBar position="static" style={{color: 'white', backgroundColor: "#11A316", boxShadow: "none"}}>
         <Toolbar>
           <Typography variant="h5" style={{flexGrow: 1, fontWeight: 500}}>{this.props.children}</Typography>
           <IconButton
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
-            href="./"
+            href="./home"
           >
             <HomeIcon />
           </IconButton>

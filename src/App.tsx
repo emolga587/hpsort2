@@ -19,14 +19,15 @@ interface State {
   round: number;
 }
 
-const TITLE = "ハロプロソート";
+// const TITLE = "ハロプロソート";
+const TITLE = "🐼パンダさんソート🐼";
 
 export default class App extends React.Component<Props, State> {
   render() {
     return (
       <Layout title={TITLE}>
         <Router basename={process.env.PUBLIC_URL}>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Panda} />
           <Route exact path="/pandasan" component={Panda} />
           <Route exact path="/home" component={Home} />
           <Route path="/hp" component={HPAll} />
@@ -53,8 +54,9 @@ class Home extends React.Component<Props, State> {
           <p>ハロプロソートは、あなたの毎日に小さな喜びを届けていきます。小さな選択が、いつしか大きなランキングとなって、人生を輝かせていく…</p>
           <p>そんなコンセプトで、お送りするツールです。</p>
         </Grid>
+        <Grid container item xs={12} justifyContent="center"><Button href="pandasan" style={{ background: 'linear-gradient(45deg, #11A316 30%, #11BF16 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>🐼パンダさんソート🐼</Button></Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(2021/12/31 UIの微調整、メンバー情報更新)</p>
+          <p>(最終更新:2022/4/1)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a></p>
@@ -63,9 +65,6 @@ class Home extends React.Component<Props, State> {
         <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="trainee" style={{ background: 'linear-gradient(45deg, #11d386 30%, #11d3bb 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ研修生ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="allstars" style={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>歴代ハロプロ全員ソート</Button></Grid>
-        {/*
-        <Grid container item xs={12} justifyContent="center"><Button href="pandasan" style={{ background: 'linear-gradient(45deg, #11A316 30%, #11BF16 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>🐼パンダさんソート🐼</Button></Grid>
-        */}
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p>定期更新終了を宣言された本家様を引き継ぎました。</p>
           <p>ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。</p>
