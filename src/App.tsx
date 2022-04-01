@@ -19,15 +19,15 @@ interface State {
   round: number;
 }
 
-// const TITLE = "ハロプロソート";
-const TITLE = "🐼パンダさんソート🐼";
+const TITLE = "ハロプロソート";
+// const TITLE = "🐼パンダさんソート🐼";
 
 export default class App extends React.Component<Props, State> {
   render() {
     return (
       <Layout title={TITLE}>
         <Router basename={process.env.PUBLIC_URL}>
-          <Route exact path="/" component={Panda} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/pandasan" component={Panda} />
           <Route exact path="/home" component={Home} />
           <Route path="/hp" component={HPAll} />
@@ -52,11 +52,15 @@ class Home extends React.Component<Props, State> {
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p>ハロプロソートは、あなたの毎日に小さな喜びを届けていきます。小さな選択が、いつしか大きなランキングとなって、人生を輝かせていく…</p>
-          <p>そんなコンセプトで、お送りするツールです。</p>
+          <p>そんなコンセプトで、お送りするソートです。</p>
         </Grid>
-        <Grid container item xs={12} justifyContent="center"><Button href="pandasan" style={{ background: 'linear-gradient(45deg, #11A316 30%, #11BF16 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>🐼パンダさんソート🐼</Button></Grid>
+        {
+          /*
+          <Grid container item xs={12} justifyContent="center"><Button href="pandasan" style={{ background: 'linear-gradient(45deg, #11A316 30%, #11BF16 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>🐼パンダさんソート🐼</Button></Grid>
+          */
+        }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:2022/4/1)</p>
+          <p>(最終更新:2022/4/2)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a></p>
