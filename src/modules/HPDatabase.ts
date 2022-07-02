@@ -7,6 +7,7 @@ import HP_DB_JOINS from "../HP_DB/join.csv";
 import EX_DB_MEMBERS from "../data/extra_member.csv";
 import EX_DB_GROUPS from "../data/extra_group.csv";
 import EX_DB_JOINS from "../data/extra_join.csv";
+import { FreeBreakfastOutlined } from "@material-ui/icons";
 
 // インターフェイス
 interface Member {
@@ -22,6 +23,7 @@ interface Group {
     groupName: string;
     formDate: string;
     dissolveDate: string;
+    isUnit: string;
 }
 
 interface Join {
@@ -89,14 +91,17 @@ class HPDatabase {
         let gradDate = Date.parse("1970/1/1");
         const memberID = this.memberName2ID(memberName);
         for (let i of this._joins) {
+            if(this.isGroupUnit(i.groupID)){
+                continue;
+            }
             if (i.memberID === memberID) {
-                if(i.gradDate && Date.parse(i.gradDate) >= gradDate){
-                    if(Date.parse(i.joinDate) <= joinDate ||　Date.parse(i.gradDate) > gradDate){
+                if (i.gradDate && Date.parse(i.gradDate) >= gradDate) {
+                    if (Date.parse(i.joinDate) <= joinDate || Date.parse(i.gradDate) > gradDate) {
                         joinDate = Date.parse(i.joinDate);
                         gradDate = Date.parse(i.gradDate);
                         result = this.groupName(i.groupID, i.gradDate) + " (OG)";
                     }
-                } else if(!i.gradDate) {
+                } else if (!i.gradDate) {
                     result = this.groupName(i.groupID);
                 }
             }
@@ -126,6 +131,18 @@ class HPDatabase {
             }
         }
         return result;
+    }
+
+    isGroupUnit = (id: string) => {
+        for (let i of this._groups) {
+            if (i.groupID === id) {
+                if (i.isUnit !== "FALSE") {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
 
     private groupName2ID = (groupname: string): string => {
@@ -162,17 +179,14 @@ class HPDatabase {
         const dateNum = Date.parse(date);
         let result = "Hello! Project";
         for (let i of this._groups) {
-            if (i.groupName === "Gatas Brilhantes H.P."){
-                continue;
-            }
-            if(date){
+            if (date) {
                 if (i.groupID === id && (Date.parse(i.dissolveDate) >= dateNum || !i.dissolveDate) && Date.parse(i.formDate) <= dateNum) {
                     result = i.groupName;
                 }
             } else {
                 if (i.groupID === id) {
                     result = i.groupName;
-                } 
+                }
             }
         }
         return result;
