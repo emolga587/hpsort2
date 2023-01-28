@@ -52,4 +52,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: aws s3 cp --recursive --region ap-northeast-1 sort s3://italian-red.s3.ap-northeast-1.amazonaws.com/16be-at/
+        run: aws s3 cp --recursive --region ap-northeast-1 sort s3://italian-red/16be-at/
