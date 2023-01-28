@@ -28,9 +28,9 @@ jobs:
         with:
           submodules: true
         
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.11'
 
       - name: Install Python script dependancies
         run: pip3 install pillow requests beautifulsoup4
@@ -39,17 +39,23 @@ jobs:
         run: python3 ../../script/get-ufg-pic.py
         working-directory: ./public/member_pics
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - name: Install Dependencies
         run: npm install
 
       - name: Build
-        run: npm run build  # React ビルド
-
-      - name: Rename
-        run: mv build/ sort/
+        run: npm run build
         
-      - name: Deploy  # S3にデプロイ 
+      - name: Deploy 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: aws s3 cp --recursive --region ap-northeast-1 sort s3://italian-red/16be-at/
+        run: aws s3 cp --recursive --region ap-northeast-1 sort s3://italian-red/16be-at/sort/
+        
+      - name: Clear ClouFront cache 
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: aws cloudfront create-invalidation --distribution-id E2P1UCYH9XFRDL --paths "/sort/*"
