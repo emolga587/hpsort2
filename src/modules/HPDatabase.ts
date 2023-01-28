@@ -7,7 +7,6 @@ import HP_DB_JOINS from "../HP_DB/join.csv";
 import EX_DB_MEMBERS from "../data/extra_member.csv";
 import EX_DB_GROUPS from "../data/extra_group.csv";
 import EX_DB_JOINS from "../data/extra_join.csv";
-import { FreeBreakfastOutlined } from "@material-ui/icons";
 
 // インターフェイス
 interface Member {
