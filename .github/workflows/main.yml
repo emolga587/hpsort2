@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: build and deploy to AWS
 
 # Controls when the workflow will run
 on:
@@ -36,6 +36,18 @@ jobs:
       - name: Getting ufg-member-pics
         run: python3 ../../script/get-ufg-pic.py
         working-directory: ./public/member_pics
-          
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build  # React ビルド
+
+      - name: Rename
+        run: mv build/ sort/
         
-        
+      - name: Deploy  # S3にデプロイ 
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: aws s3 cp --recursive --region ap-northeast-1 build s3://italian-red.s3.ap-northeast-1.amazonaws.com/16be-at/
