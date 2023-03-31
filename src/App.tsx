@@ -12,6 +12,7 @@ import "./App.css";
 import Layout from "./components/Layout";
 import SortPage from "./components/SortPage";
 import hpDB from "./modules/HPDatabase";
+import BogoSortPage from "./components/BogoSortPage";
 
 interface Props { }
 interface State {
@@ -34,6 +35,7 @@ export default class App extends React.Component<Props, State> {
           <Route path="/hptrainee" component={HPAllTrainee} />
           <Route path="/trainee" component={Trainee} />
           <Route path="/allstars" component={AllStars} />
+          <Route path="/aprilfool" component={Bogo} />
         </Router>
       </Layout>
     );
@@ -60,15 +62,17 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:2023/1/1)</p>
+          <p>(最終更新:2023/4/1)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a></p>
+          <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a><br></br><br></br></p>
         </Grid>
-        <Grid container item xs={12} justifyContent="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート</Button></Grid>
-        <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
-        <Grid container item xs={12} justifyContent="center"><Button href="trainee" style={{ background: 'linear-gradient(45deg, #11d386 30%, #11d3bb 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>ハロプロ研修生ソート</Button></Grid>
-        <Grid container item xs={12} justifyContent="center"><Button href="allstars" style={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white', fontWeight: 'bold', height: 40 }}>歴代ハロプロ全員ソート</Button></Grid>
+        <Grid container item xs={12} justifyContent="center"><Button href="aprilfool" style={{ background: 'linear-gradient(45deg, #cca11f 30%, #e6b422 90%)', color: 'white', fontWeight: 'bold', height: 48, fontSize: "24px"}}>全自動ハロプロソート</Button></Grid>
+        <p>あなたに代わってAIが究極の選択をします<br/><br/>従来のソート</p>
+        <Grid container item xs={12} justifyContent="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ全員ソート</Button></Grid>
+        <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
+        <Grid container item xs={12} justifyContent="center"><Button href="trainee" style={{ background: 'linear-gradient(45deg, #11d386 30%, #11d3bb 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ研修生ソート</Button></Grid>
+        <Grid container item xs={12} justifyContent="center"><Button href="allstars" style={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>歴代ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p>定期更新終了を宣言された本家様を引き継ぎました。</p>
           <p>ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。</p>
@@ -114,5 +118,10 @@ class Panda extends React.Component<Props, State> {
 class AllStars extends React.Component<Props, State> {
   render() {
     return <div><SortPage members={hpDB.allStars} sortName="歴代ハロプロ全員ソート" /></div>;
+  }
+}
+class Bogo extends React.Component<Props, State> {
+  render() {
+    return <div><BogoSortPage members={hpDB.currentHPMembers} sortName="全自動ハロプロソート" /></div>;
   }
 }
