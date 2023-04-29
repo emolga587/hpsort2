@@ -62,13 +62,11 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:2023/4/1)</p>
+          <p>(最終更新:23/4/30 新研修生の追加)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a><br></br><br></br></p>
         </Grid>
-        <Grid container item xs={12} justifyContent="center"><Button href="aprilfool" style={{ background: 'linear-gradient(45deg, #cca11f 30%, #e6b422 90%)', color: 'white', fontWeight: 'bold', height: 48, fontSize: "24px"}}>全自動ハロプロソート</Button></Grid>
-        <p>あなたに代わってAIが究極の選択をします<br/><br/>従来のソート</p>
         <Grid container item xs={12} justifyContent="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="trainee" style={{ background: 'linear-gradient(45deg, #11d386 30%, #11d3bb 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ研修生ソート</Button></Grid>
