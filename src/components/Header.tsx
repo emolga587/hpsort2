@@ -19,7 +19,7 @@ export default class Header extends React.Component<Props, State> {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
-            href="./"
+            href="./home"
           >
             <HomeIcon />
           </IconButton>

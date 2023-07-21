@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: build and deploy to AWS
 
 # Controls when the workflow will run
 on:
@@ -24,11 +24,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repo content
-        uses: actions/checkout@v2
-        
-      - uses: actions/setup-python@v2
+        uses: actions/checkout@v3
         with:
-          python-version: '3.8'
+          submodules: true
+        
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Install Python script dependancies
         run: pip3 install pillow requests beautifulsoup4
@@ -36,6 +38,25 @@ jobs:
       - name: Getting ufg-member-pics
         run: python3 ../../script/get-ufg-pic.py
         working-directory: ./public/member_pics
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+ 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
           
+      - name: Deploy 
+        run: aws s3 cp --recursive --region ap-northeast-1 build s3://italian-red/16be-at/sort/
         
-        
+      - name: Clear CloudFront cache 
+        run: aws cloudfront create-invalidation --distribution-id E2P1UCYH9XFRDL --paths "/sort/*"

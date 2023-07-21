@@ -2,7 +2,7 @@
   "name": "hpsort2",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "/sort/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
@@ -28,7 +28,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
