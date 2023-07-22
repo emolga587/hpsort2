@@ -1,3 +1,6 @@
+from sys import argv
+from os.path import join
+from os import getcwd
 from PIL import Image, ImageFilter
 from bs4 import BeautifulSoup, element
 from asyncio import run, gather
@@ -11,7 +14,11 @@ FORMAT = 'jpeg'
 EXT = 'jpg'
 
 
-async def parse_artist_page(tags: list[element.Tag]):
+def save_path(filename: str) -> str:
+    return join(getcwd(), argv[1], '{}.{}'.format(filename, EXT))
+
+
+async def parse_artist_page(tags: list[element.Tag]) -> None:
     gathering = []
     async with ClientSession() as session:
         for elm in tags:
@@ -31,7 +38,7 @@ async def download_artist_pic(tags: list[element.Tag]):
         async def download(tag_1: element.Tag):
             tag_1 = tag_1.next
             async with session.get(url=tag_1['src']) as resp_1:
-                async with a_open(file='{}.{}'.format(tag_1['alt'], EXT), mode='wb') as f:
+                async with a_open(file=save_path(tag_1.attrs.get('alt')), mode='wb') as f:
                     Image.open(BytesIO(await resp_1.read())).save(f, format=FORMAT)
             print(tag_1.attrs.get('alt'), tag_1.attrs.get('src'), end='\n\n')
 
@@ -61,7 +68,7 @@ async def parse_og_page(tags: list[element.Tag]):
                 print(url)
                 print()
                 og_name = elm_og.next.attrs.get('alt')
-            async with session.get(url=url) as img_data, a_open(file=f'{og_name}.{EXT}', mode='wb') as f:
+            async with session.get(url=url) as img_data, a_open(file=save_path(og_name), mode='wb') as f:
                 Image.open(BytesIO(await img_data.read())).save(fp=f, format=FORMAT)
 
     gathering = []
