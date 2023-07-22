@@ -10,8 +10,8 @@ from aiofiles import open as a_open
 from io import BytesIO
 from urllib.parse import urljoin
 
-FORMAT = 'webp'
-EXT = 'webp'
+FORMAT = 'jpeg'
+EXT = 'jpg'
 
 
 def save_path(filename: str) -> str:
