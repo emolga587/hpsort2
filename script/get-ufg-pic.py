@@ -10,8 +10,8 @@ from aiofiles import open as a_open
 from io import BytesIO
 from urllib.parse import urljoin
 
-FORMAT = 'jpeg'
-EXT = 'jpg'
+FORMAT = 'webp'
+EXT = 'webp'
 
 
 def save_path(filename: str) -> str:
@@ -39,7 +39,9 @@ async def download_artist_pic(tags: list[element.Tag]):
             tag_1 = tag_1.next
             async with session.get(url=tag_1['src']) as resp_1:
                 async with a_open(file=save_path(tag_1.attrs.get('alt')), mode='wb') as f:
-                    Image.open(BytesIO(await resp_1.read())).save(f, format=FORMAT)
+                    save_to = BytesIO()
+                    Image.open(BytesIO(await resp_1.read())).convert(mode='RGB').save(save_to, format=FORMAT)
+                    await f.write(save_to.getvalue())
             print(tag_1.attrs.get('alt'), tag_1.attrs.get('src'), end='\n\n')
 
         if tags.__len__() == 1:
@@ -49,9 +51,9 @@ async def download_artist_pic(tags: list[element.Tag]):
             for order, tag in enumerate(tags):
                 tag = tag.next
                 async with session.get(url=tag['src']) as resp_2:
-                    save_to = BytesIO()
-                    Image.open(BytesIO(await resp_2.read())).filter(ImageFilter.FIND_EDGES).save(save_to, format='png')
-                    size.append(save_to.__sizeof__())
+                    get_size = BytesIO()
+                    Image.open(BytesIO(await resp_2.read())).filter(ImageFilter.FIND_EDGES).save(get_size, format='png')
+                    size.append(get_size.getbuffer().nbytes)
                     # エッジ検出して、PNG圧縮を使って画像のデータ量を推測する。
 
             await download(tags[size.index(max(size))])
@@ -69,7 +71,9 @@ async def parse_og_page(tags: list[element.Tag]):
                 print()
                 og_name = elm_og.next.attrs.get('alt')
             async with session.get(url=url) as img_data, a_open(file=save_path(og_name), mode='wb') as f:
-                Image.open(BytesIO(await img_data.read())).save(fp=f, format=FORMAT)
+                save_to = BytesIO()
+                Image.open(BytesIO(await img_data.read())).save(fp=save_to, format=FORMAT)
+                await f.write(save_to.getvalue())
 
     gathering = []
     for elm in tags:
