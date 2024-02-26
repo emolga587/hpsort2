@@ -7,8 +7,6 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,6 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
+    if: github.repository == 'emolga587/hpsort2'
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -32,12 +31,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Python script dependancies
-        run: pip3 install pillow requests beautifulsoup4
+      - name: Install Python script dependencies
+        run: pip3 install pillow beautifulsoup4 aiohttp aiofiles lxml
         
-      - name: Getting ufg-member-pics
-        run: python3 ../../script/get-ufg-pic.py
-        working-directory: ./public/member_pics
+      - name: Getting UpFront Group members (Hello!Project & M-line)
+        run: python3 ./script/get-ufg-pic.py ./public/member_pics
 
       - uses: actions/setup-node@v3
         with:
