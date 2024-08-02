@@ -72,7 +72,7 @@ async def parse_og_page(tags: list[element.Tag]):
                 og_name = elm_og.next.attrs.get('alt')
             async with session.get(url=url) as img_data, a_open(file=save_path(og_name), mode='wb') as f:
                 save_to = BytesIO()
-                Image.open(BytesIO(await img_data.read())).save(fp=save_to, format=FORMAT)
+                Image.open(BytesIO(await img_data.read())).convert("RGB").save(fp=save_to, format=FORMAT)
                 await f.write(save_to.getvalue())
 
     gathering = []
