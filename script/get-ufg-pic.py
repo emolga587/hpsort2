@@ -1,84 +1,90 @@
-import os
-import urllib.request
+from sys import argv
+from os.path import join
+from os import getcwd
+from PIL import Image, ImageFilter
+from bs4 import BeautifulSoup, element
+from asyncio import run, gather
+from urllib.request import Request, urlopen
+from aiohttp import ClientSession
+from aiofiles import open as a_open
+from io import BytesIO
+from urllib.parse import urljoin
 
-from PIL import Image
-import requests
-from bs4 import BeautifulSoup
-
-# member
-
-group_list = requests.get("http://www.helloproject.com/artist/")  # グループ一覧を取得
-
-groups = BeautifulSoup(group_list.text, 'html.parser').find('nav', {'class': 'artist_listbox'})
-links = groups.find_all('a')
-urls = []
-for pagelink in links:
-    urls.append(BeautifulSoup(str(pagelink), 'html.parser').find('a')['href'])
-profile_page = []
-for pagelink in urls:
-    profile_page.append('http://www.helloproject.com' + pagelink + 'profile/')
-#↑各グループのプロフィールページ取得
+FORMAT = 'jpeg'
+EXT = 'jpg'
 
 
-print(profile_page)
-
-group_member_link = []
-for link in profile_page:
-    group_page = requests.get(link)
-    group_member_list = BeautifulSoup(group_page.text, 'html.parser')
-    group_member_list = group_member_list.find('ul', {'id': 'profile_memberlist'})
-
-    for member_link in group_member_list.find_all('div', {'class': 'photo_box'}):
-        member_link = 'http://www.helloproject.com' + BeautifulSoup(str(member_link), 'html.parser').find('a')['href']
-        group_member_link.append(member_link)
-#↑各メンバーのプロフィールページ取得
-
-for member_profile_page_link in group_member_link:
-    member_profile_page = requests.get(member_profile_page_link)
-    member_profile_page = BeautifulSoup(member_profile_page.text, 'html.parser')
-    member_pic_div = member_profile_page.find('div', {'id': 'artist_photoB'})
-    member_pic_link = member_pic_div.find('img')['src']
-    member_name = member_profile_page.find('div', {'id': 'artist_text'}).find('h3').get_text()
-    print(member_name)
-    print(member_profile_page_link)
-    print(member_pic_link)
-    urllib.request.urlretrieve(member_pic_link, member_name + '.jpg')
-    img = Image.open(member_name + '.jpg')
-    img.save(member_name + '.jpg', 'jpeg', quality=85)
-    print('\n\n')
-#↑各メンバーの画像取得
+def save_path(filename: str) -> str:
+    return join(getcwd(), argv[1], '{}.{}'.format(filename, EXT))
 
 
-# OG
+async def parse_artist_page(tags: list[element.Tag]) -> None:
+    gathering = []
+    async with ClientSession() as session:
+        for elm in tags:
+            async with session.get(url='http://www.helloproject.com{}profile/'.format(elm['href'])) as resp_1:
+                members = BeautifulSoup(await resp_1.text(), 'lxml').find_all('div', {'class': 'photo_box'})
+            for member in members:
+                async with session.get(url='http://www.helloproject.com{}'.format(member.next['href'])) as resp_2:
+                    photo_url = BeautifulSoup(await resp_2.text(), 'lxml').find('div', {'id': 'artist_photoB'})
+                    image_link = photo_url.findChild().findChildren(recursive=False)
+                    if image_link[0].next.attrs.get('alt') != '在籍者なし':
+                        gathering.append(download_artist_pic(image_link))
+    await gather(*gathering)
 
-og_url = requests.get('http://www.up-fc.jp/m-line/')
 
-og_artists = BeautifulSoup(og_url.text, 'html.parser').find('ul', {'id': 'main_artist'})
-for pagelink in og_artists('a'):
-    print("\n\n")
-    og_profile_link = 'http://www.up-fc.jp/m-line/' + pagelink['href']
-    og_profile_page = requests.get(og_profile_link)
-    og_profile_page = BeautifulSoup(og_profile_page.text, 'html.parser').find('div', {'id': 'main-left'})
-    og_name = og_profile_page.find('img')['alt']
-#↑各アーティストの名前取得
-    if og_name == 'kumai1901':
-        og_name = '熊井友理奈'
-    print(og_name)
-    print('http://www.up-fc.jp/m-line/' + pagelink['href'])
-    og_pic_link = og_profile_page.find('img')['src']
-    if 'http' in og_pic_link:
-        print(og_pic_link)
-    elif og_pic_link.find('/', 0, 1) == -1:
-        print(og_profile_link + og_pic_link)
-        og_pic_link = og_profile_link + og_pic_link
-    elif og_pic_link.find('/', 0, 1) == 0:
-        print('http://www.up-fc.jp' + og_pic_link)
-        og_pic_link = 'http://www.up-fc.jp' + og_pic_link
-    else:
-        print("error\n")
-#↑各アーティストの画像URL取得
-    urllib.request.urlretrieve(og_pic_link, og_name + '.png')
-    img = Image.open(og_name + '.png')
-    img.save(og_name + '.jpg', 'jpeg', quality=85)
-    os.remove(og_name + '.png')
-#↑保存及び変換
+async def download_artist_pic(tags: list[element.Tag]):
+    async with ClientSession() as session:
+        async def download(tag_1: element.Tag):
+            tag_1 = tag_1.next
+            async with session.get(url=tag_1['src']) as resp_1:
+                async with a_open(file=save_path(tag_1.attrs.get('alt')), mode='wb') as f:
+                    save_to = BytesIO()
+                    Image.open(BytesIO(await resp_1.read())).convert(mode='RGB').save(save_to, format=FORMAT)
+                    await f.write(save_to.getvalue())
+            print(tag_1.attrs.get('alt'), tag_1.attrs.get('src'), end='\n\n')
+
+        if tags.__len__() == 1:
+            await download(tags[0])
+        else:
+            size = []
+            for order, tag in enumerate(tags):
+                tag = tag.next
+                async with session.get(url=tag['src']) as resp_2:
+                    get_size = BytesIO()
+                    Image.open(BytesIO(await resp_2.read())).filter(ImageFilter.FIND_EDGES).save(get_size, format='png')
+                    size.append(get_size.getbuffer().nbytes)
+                    # エッジ検出して、PNG圧縮を使って画像のデータ量を推測する。
+
+            await download(tags[size.index(max(size))])
+
+
+async def parse_og_page(tags: list[element.Tag]):
+    async def download(elm_og: element.Tag):
+        async with ClientSession() as session:
+            async with session.get('http://www.up-fc.jp/m-line/{}'.format(elm_og['href'])) as resp_1:
+                og_profile_page = BeautifulSoup(await resp_1.text(), 'lxml').find('div', {'id': 'main-left'})
+                print(elm_og.findChild()['alt'], end='\t')
+                url = urljoin('http://www.up-fc.jp/m-line/{}'.format(elm_og['href']),
+                              og_profile_page.findChild()['src'])
+                print(url)
+                print()
+                og_name = elm_og.next.attrs.get('alt')
+            async with session.get(url=url) as img_data, a_open(file=save_path(og_name), mode='wb') as f:
+                save_to = BytesIO()
+                Image.open(BytesIO(await img_data.read())).convert("RGB").save(fp=save_to, format=FORMAT)
+                await f.write(save_to.getvalue())
+
+    gathering = []
+    for elm in tags:
+        gathering.append(download(elm))
+    await gather(*gathering)
+
+
+with urlopen(Request(url='http://www.helloproject.com/artist/')) as resp:
+    artist_list = BeautifulSoup(resp.read().decode(), 'lxml').find('nav', {'class': 'artist_listbox'}).find_all('a')
+    run(parse_artist_page(artist_list))
+
+with urlopen(Request(url='http://www.up-fc.jp/m-line/')) as resp:
+    og_list = BeautifulSoup(resp.read().decode(), 'lxml').find('ul', {'id': 'main_artist'}).find_all('a')
+    run(parse_og_page(og_list))
