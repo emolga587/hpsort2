@@ -62,7 +62,7 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:24/11/23 アーティスト写真の反映)</p>
+          <p>(最終更新:24/11/23 アーティスト写真の更新)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a><br></br><br></br></p>
