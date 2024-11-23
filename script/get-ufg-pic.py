@@ -82,9 +82,17 @@ async def parse_og_page(tags: list[element.Tag]):
 
 
 with urlopen(Request(url='http://www.helloproject.com/artist/')) as resp:
-    artist_list = BeautifulSoup(resp.read().decode(), 'lxml').find('nav', {'class': 'artist_listbox'}).find_all('a')
-    run(parse_artist_page(artist_list))
+    artist_listbox = BeautifulSoup(resp.read().decode(), 'lxml').find('nav', {'class': 'artist_listbox'})
+    if artist_listbox:
+        artist_list = artist_listbox.find_all('a')
+        run(parse_artist_page(artist_list))
+    else:
+        print("Artist listbox not found")
 
 with urlopen(Request(url='http://www.up-fc.jp/m-line/')) as resp:
-    og_list = BeautifulSoup(resp.read().decode(), 'lxml').find('ul', {'id': 'main_artist'}).find_all('a')
-    run(parse_og_page(og_list))
+    main_artist = BeautifulSoup(resp.read().decode(), 'lxml').find('ul', {'id': 'main_artist'})
+    if main_artist:
+        og_list = main_artist.find_all('a')
+        run(parse_og_page(og_list))
+    else:
+        print("Main artist list not found")
