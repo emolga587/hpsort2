@@ -45,7 +45,7 @@ export default class App extends React.Component<Props, State> {
 class Home extends React.Component<Props, State> {
   render() {
     function helpAlert() {
-      alert("選択を繰り返すことで自分だけのランキングを作ることができます。\n今まで気づかなかった「好き」を再発見するためにご利用ください。\nソートの結果はあなたにとってのランキングであり、メンバーの優劣を意味しません。")
+      alert("選択を繰り返すことで自分だけのランキングを作ることができます。\n今まで気づかなかった「好き」を再発見するためにご活用ください。\nソートの結果はあなたにとってのランキングであり、メンバーの優劣を意味しません。")
     }
     return (
       <Grid container item xs={12} justifyContent="center" style={{ textAlign: "center" }} spacing={1}>
@@ -53,8 +53,8 @@ class Home extends React.Component<Props, State> {
           <h1>{TITLE}</h1>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>ハロプロソートは、あなたの毎日に小さな喜びを届けていきます。小さな選択が、いつしか大きなランキングとなって、人生を輝かせていく…</p>
-          <p>そんなコンセプトで、お送りするソートです。</p>
+          <p>選択を繰り返すことで自分だけのランキングを作ることができます。</p>
+          <p>今まで気づかなかった「好き」を再発見するためにご活用ください。</p>
         </Grid>
         {
           /*
@@ -62,7 +62,7 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:24/8/3 メンバー情報の更新、ロージークロニクル対応)</p>
+          <p>(最終更新:24/11/23 アーティスト写真の反映)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a><br></br><br></br></p>
