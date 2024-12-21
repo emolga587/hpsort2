@@ -14,8 +14,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faUserFriends, faShare } from '@fortawesome/free-solid-svg-icons'
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
 
 import hpDB from "../modules/HPDatabase";
 
@@ -38,6 +38,7 @@ export default class SortPage extends React.Component<Props, State> {
     if (this.state.result) {
       let rankTable: JSX.Element[] = [];
       let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
+      let share_text: string = `${this.props.sortName}結果\n`;
       let max_output = 10;
       if (this.props.members.length < 10) {
         max_output = 3;
@@ -47,71 +48,90 @@ export default class SortPage extends React.Component<Props, State> {
 
       for (let i of this.sort.array) {
         let groupname = hpDB.groupNameByMemberName(i);
-        rankTable.push(<TableRow key={i}><TableCell align="left">{this.sort.rank(i)}位</TableCell><TableCell align="left">{i}</TableCell><TableCell><span style={{ color: hpDB.groupName2ColorCode(hpDB.groupNameByMemberName(i)) }}><FontAwesomeIcon icon={faUserFriends} /></span> {groupname}</TableCell></TableRow>);
+        rankTable.push(
+          <TableRow key={i}>
+            <TableCell align="left">{this.sort.rank(i)}位</TableCell>
+            <TableCell align="left">{i}</TableCell>
+            <TableCell>
+              <span style={{ color: hpDB.groupName2ColorCode(hpDB.groupNameByMemberName(i)) }}>
+                <FontAwesomeIcon icon={faUserFriends} />
+              </span> {groupname}
+            </TableCell>
+          </TableRow>
+        );
         if (this.sort.rank(i) <= max_output) {
           tweet_url += encodeURI(`${this.sort.rank(i)}位: ${i}\n`);
+          share_text += `${this.sort.rank(i)}位: ${i}\n`;
         }
       }
 
-      const getResultPictures = (min: Number, max: Number) => {
-        const result: JSX.Element[] = [];
-        for (let i of this.sort.array) {
-          if (this.sort.rank(i) >= min && this.sort.rank(i) <= max) {
-            result.push(
-              <ResultPicture key={i} name={i} rank={this.sort.rank(i)}></ResultPicture>
-            );
-          }
-        }
-        return result;
-      }
+      const shareData = {
+        title: `${this.props.sortName}結果`,
+        text: share_text,
+        url: 'https://16be.at/sort/',
+      };
 
       tweet_url += "&hashtags=" + encodeURI("ハロプロソート") + "&url=" + encodeURI("https://16be.at/sort/");
       console.log(tweet_url);
-      return <Grid container alignItems="flex-start">
-        <Grid container item xs={12} justifyContent="center">
-          <h2 style={{ marginBottom: 0 }}>{this.props.sortName}結果</h2>
-        </Grid>
-        <Grid container item xs={12} justifyContent="center">
-          <p style={{ marginTop: 0, marginBottom: 10 }}>ラウンド{this.sort.currentRound} - {this.sort.progress}%</p>
-        </Grid>
-        <Grid container item md={6} xs={12} justifyContent="center">
+      return (
+        <Grid container alignItems="flex-start">
           <Grid container item xs={12} justifyContent="center">
-            {getResultPictures(1, 1)}
+            <h2 style={{ marginBottom: 0 }}>{this.props.sortName}結果</h2>
           </Grid>
           <Grid container item xs={12} justifyContent="center">
-            {getResultPictures(2, 3)}
+            <p style={{ marginTop: 0, marginBottom: 10 }}>ラウンド{this.sort.currentRound} - {this.sort.progress}%</p>
           </Grid>
-          <Grid container item xs={12} justifyContent="center">
-            {getResultPictures(4, 6)}
+          <Grid container item md={6} xs={12} justifyContent="center">
+            <Grid container item xs={12} justifyContent="center">
+              {this.getResultPictures(1, 1)}
+            </Grid>
+            <Grid container item xs={12} justifyContent="center">
+              {this.getResultPictures(2, 3)}
+            </Grid>
+            <Grid container item xs={12} justifyContent="center">
+              {this.getResultPictures(4, 6)}
+            </Grid>
+            <Grid container item xs={12} justifyContent="center">
+              {this.getResultPictures(7, 10)}
+            </Grid>
           </Grid>
-          <Grid container item xs={12} justifyContent="center">
-            {getResultPictures(7, 10)}
-          </Grid>
-        </Grid>
 
-        <Grid container item md={6} xs={12} justifyContent="center">
-          <TableContainer component={Paper}>
-            <Table size="small" aria-label="a dense table">
-              <TableHead>
-                <TableRow style={{ backgroundColor: "#444" }}>
-                  <TableCell style={{ color: "white", fontWeight: "bold" }}>順位</TableCell>
-                  <TableCell style={{ color: "white", fontWeight: "bold" }}>名前</TableCell>
-                  <TableCell style={{ color: "white", fontWeight: "bold" }}>所属グループ</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rankTable}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Grid container item md={6} xs={12} justifyContent="center">
+            <TableContainer component={Paper}>
+              <Table size="small" aria-label="a dense table">
+                <TableHead>
+                  <TableRow style={{ backgroundColor: "#444" }}>
+                    <TableCell style={{ color: "white", fontWeight: "bold" }}>順位</TableCell>
+                    <TableCell style={{ color: "white", fontWeight: "bold" }}>名前</TableCell>
+                    <TableCell style={{ color: "white", fontWeight: "bold" }}>所属グループ</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rankTable}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+          <Grid container item xs={12} justifyContent="center">
+            <br />
+            <p>
+              <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#000000", color: "#ffffff", marginRight: "10px" }}>
+                <FontAwesomeIcon icon={faXTwitter} />&nbsp;Xで共有
+              </Button>
+              {navigator.share &&
+                <Button variant="contained" size="large" style={{ backgroundColor: "#444", color: "#ffffff" }}
+                  onClick={() => {
+                    navigator.share(shareData).then(() => console.log('Shared successfully'))
+                    .catch((error) => console.log('Error sharing', error));
+                  }}
+                >
+                  <FontAwesomeIcon icon={faShare} />&nbsp;その他のアプリ
+                </Button>
+              }
+            </p>
+          </Grid>
         </Grid>
-        <Grid container item xs={12} justifyContent="center">
-          <br />
-          <p>
-            <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#00ACEE", color: "#ffffff" }}><FontAwesomeIcon icon={faTwitter} />&nbsp;結果をツイート</Button>
-          </p>
-        </Grid>
-      </Grid>
+      )
     } else {
       return (
         <div style={{ textAlign: "center" }}>
@@ -170,5 +190,17 @@ export default class SortPage extends React.Component<Props, State> {
         </div>
       );
     }
+  }
+
+  getResultPictures(min: number, max: number) {
+    const result: JSX.Element[] = [];
+    for (let i of this.sort.array) {
+      if (this.sort.rank(i) >= min && this.sort.rank(i) <= max) {
+        result.push(
+          <ResultPicture key={i} name={i} rank={this.sort.rank(i)}></ResultPicture>
+        );
+      }
+    }
+    return result;
   }
 }

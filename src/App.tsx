@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faTwitter, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import "./App.css";
@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import SortPage from "./components/SortPage";
 import hpDB from "./modules/HPDatabase";
 import BogoSortPage from "./components/BogoSortPage";
+import { faM } from "@fortawesome/free-solid-svg-icons";
 
 interface Props { }
 interface State {
@@ -62,7 +63,7 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:24/11/23 アーティスト写真の更新)</p>
+          <p>(最終更新:24/12/21 メンバー情報の更新、SNS連携対応)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a><br></br><br></br></p>
@@ -79,7 +80,8 @@ class Home extends React.Component<Props, State> {
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p>
-            <Button href="https://twitter.com/emolga587" target="_blank" size="small" style={{ backgroundColor: "#00ACEE", color: "#ffffff", textTransform: "none", margin: 2 }}><FontAwesomeIcon icon={faTwitter} />&nbsp;Twitter</Button>
+            <Button href="https://twitter.com/emolga587" target="_blank" size="small" style={{ backgroundColor: "#000000", color: "#ffffff", textTransform: "none", margin: 2 }}><FontAwesomeIcon icon={faXTwitter} />&nbsp;@emolga587</Button>
+            <Button href="https://mixi.social/@emolga" target="_blank" size="small" style={{ backgroundColor: "#ff6347", color: "#ffffff", textTransform: "none", margin: 2 }}><FontAwesomeIcon icon={faM} />&nbsp;@emolga</Button>
             <Button href="https://github.com/emolga587/hpsort2" target="_blank" size="small" style={{ backgroundColor: "#000000", color: "#ffffff", textTransform: "none", margin: 2 }}><FontAwesomeIcon icon={faGithub} />&nbsp;GitHub</Button>
           </p>
         </Grid>
