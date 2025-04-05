@@ -45,9 +45,9 @@ export default class App extends React.Component<Props, State> {
 
 class Home extends React.Component<Props, State> {
   render() {
-    function helpAlert() {
-      alert("選択を繰り返すことで自分だけのランキングを作ることができます。\n今まで気づかなかった「好き」を再発見するためにご活用ください。\nソートの結果はあなたにとってのランキングであり、メンバーの優劣を意味しません。")
-    }
+    //function helpAlert() {
+    //  alert("選択を繰り返すことで自分だけのランキングを作ることができます。\n今まで気づかなかった「好き」を再発見するためにご活用ください。\nソートの結果はあなたにとってのランキングであり、メンバーの優劣を意味しません。")
+    //}
     return (
       <Grid container item xs={12} justifyContent="center" style={{ textAlign: "center" }} spacing={1}>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
@@ -55,7 +55,6 @@ class Home extends React.Component<Props, State> {
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p>選択を繰り返すことで自分だけのランキングを作ることができます。</p>
-          <p>今まで気づかなかった「好き」を再発見するためにご活用ください。</p>
         </Grid>
         {
           /*
@@ -63,18 +62,30 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>(最終更新:25/4/1 メンバー情報の更新)</p>
+          <p>(最終更新: '25/4/5)</p>
         </Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a><br></br><br></br></p>
+          {
+            /*
+            <p><a href="./" onClick={helpAlert}>🔰ハロプロソートとは？🔰</a></p>
+            */
+          }
         </Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hp" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="hptrainee" style={{ background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ全員ソート(研修生含む)</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="trainee" style={{ background: 'linear-gradient(45deg, #11d386 30%, #11d3bb 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ研修生ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center"><Button href="allstars" style={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>歴代ハロプロ全員ソート</Button></Grid>
         <Grid container item xs={12} justifyContent="center" spacing={0}>
-          <p>定期更新終了を宣言された本家様を引き継ぎました。</p>
-          <p>ソートアルゴリズムに<a href="https://en.wikipedia.org/wiki/Merge-insertion_sort">Ford-Johnson法</a>を採用しています。</p>
+          <Grid xs={12}><p>ソート結果の利用にあたって、以下の行為を禁じます。</p></Grid>
+          <p>
+            <u>
+              ソート結果を利用してメンバーを中傷する行為<br />
+              ソート結果をメンバーへ伝える行為（方法を問わず）<br />
+              ソート結果のスクリーンショットをSNSにアップロードする行為<br />
+            </u>
+          </p>
+        </Grid>
+        <Grid container item xs={12} justifyContent="center" spacing={0}>
           <p><a href="https://twitter.com/xxgentaroxx" target="_blank" rel="noreferrer">@xxgentaroxx</a>大先生による、歴代ハロプロメンバーの<a href="https://github.com/xxgentaroxx/HP_DB" target="_blank" rel="noreferrer">オープンデータ</a>から自動生成しています。</p>
           <p>「引き分け」ボタンを1回押すと比較回数が4-5回減ります。急いでいる方は活用してください。</p>
         </Grid>

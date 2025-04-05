@@ -111,6 +111,14 @@ export default class SortPage extends React.Component<Props, State> {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Grid container item justifyContent="center" xs={12}>
+              <p>
+                <b>ソート結果の利用にあたって、以下の行為を禁じます。</b><br />
+                  ・ソート結果を利用してメンバーを中傷する行為<br />
+                  ・ソート結果をメンバーへ伝える行為（方法を問わず）<br />
+                  ・ソート結果のスクリーンショットをSNSにアップロードする行為<br />
+              </p>
+            </Grid>
           </Grid>
           <Grid container item xs={12} justifyContent="center">
             <br />
@@ -122,7 +130,7 @@ export default class SortPage extends React.Component<Props, State> {
                 <Button variant="contained" size="large" style={{ backgroundColor: "#444", color: "#ffffff" }}
                   onClick={() => {
                     navigator.share(shareData).then(() => console.log('Shared successfully'))
-                    .catch((error) => console.log('Error sharing', error));
+                      .catch((error) => console.log('Error sharing', error));
                   }}
                 >
                   <FontAwesomeIcon icon={faShare} />&nbsp;その他のアプリ
