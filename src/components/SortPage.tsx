@@ -117,6 +117,7 @@ export default class SortPage extends React.Component<Props, State> {
                   ・ソート結果を利用してメンバーを中傷する行為<br />
                   ・ソート結果をメンバーへ伝える行為（方法を問わず）<br />
                   ・ソート結果のスクリーンショットをSNSにアップロードする行為<br />
+                  結果の共有は、下記のボタンをご利用ください。
               </p>
             </Grid>
           </Grid>
