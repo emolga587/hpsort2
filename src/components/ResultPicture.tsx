@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box } from "@mui/material";
-import hpDB from "../modules/HPDatabase";
+import hpDB from "../modules/HPDatabase.ts";
 
 interface Props {
     name: string;
@@ -15,7 +15,7 @@ interface Props {
 interface State { }
 
 export default class ResultPicture extends React.Component<Props, State> {
-    render() {
+    override render() {
         let img_dir: string;
         if (Number(hpDB.memberName2ID(this.props.name)) < 9000) {
             img_dir = "member_pics/";
