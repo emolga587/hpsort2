@@ -21,6 +21,8 @@ interface State {
   round: number;
 }
 
+declare const __BUILD_LAST_UPDATED__: string;
+
 const TITLE = "ハロプロソート";
 // const TITLE = "🐼パンダさんソート🐼";
 
@@ -64,7 +66,7 @@ class Home extends React.Component<Props, State> {
           */
         }
         <Grid container size={12} sx={{ justifyContent: "center" }} spacing={0}>
-          <p>(最終更新: '25/4/5)</p>
+          <p>(最終更新: {__BUILD_LAST_UPDATED__})</p>
         </Grid>
         <Grid container size={12} sx={{ justifyContent: "center" }} spacing={0}>
           {
