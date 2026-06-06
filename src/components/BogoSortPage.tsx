@@ -52,7 +52,7 @@ export default class BogoSortPage extends React.Component<Props, State> {
           }
         }
   
-        const getResultPictures = (min: Number, max: Number) => {
+        const getResultPictures = (min: number, max: number) => {
           const result: JSX.Element[] = [];
           for (let i of this.sort.array) {
             if (this.sort.rank(i) >= min && this.sort.rank(i) <= max) {

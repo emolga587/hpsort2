@@ -1,12 +1,12 @@
-import parse from "csv-parse/lib/sync";
-import HP_DB_MEMBERS from "../HP_DB/member.csv";
-import HP_DB_GROUPS from "../HP_DB/group.csv";
-import HP_DB_GROUP_COLORS from "../data/group_color.csv";
-import HP_DB_JOINS from "../HP_DB/join.csv";
+import { parse } from "csv-parse/browser/esm/sync";
+import HP_DB_MEMBERS from "../HP_DB/member.csv?raw";
+import HP_DB_GROUPS from "../HP_DB/group.csv?raw";
+import HP_DB_GROUP_COLORS from "../data/group_color.csv?raw";
+import HP_DB_JOINS from "../HP_DB/join.csv?raw";
 
-import EX_DB_MEMBERS from "../data/extra_member.csv";
-import EX_DB_GROUPS from "../data/extra_group.csv";
-import EX_DB_JOINS from "../data/extra_join.csv";
+import EX_DB_MEMBERS from "../data/extra_member.csv?raw";
+import EX_DB_GROUPS from "../data/extra_group.csv?raw";
+import EX_DB_JOINS from "../data/extra_join.csv?raw";
 
 // インターフェイス
 interface Member {
@@ -44,10 +44,10 @@ class HPDatabase {
     private _group_colors: GroupColor[] = [];
 
     constructor() {
-        this._members = this.fetchCSV(HP_DB_MEMBERS).concat(this.fetchCSV(EX_DB_MEMBERS));
-        this._groups = this.fetchCSV(HP_DB_GROUPS).concat(this.fetchCSV(EX_DB_GROUPS));
-        this._joins = this.fetchCSV(HP_DB_JOINS).concat(this.fetchCSV(EX_DB_JOINS));
-        this._group_colors = this.fetchCSV(HP_DB_GROUP_COLORS);
+        this._members = this.parseCSV(HP_DB_MEMBERS).concat(this.parseCSV(EX_DB_MEMBERS));
+        this._groups = this.parseCSV(HP_DB_GROUPS).concat(this.parseCSV(EX_DB_GROUPS));
+        this._joins = this.parseCSV(HP_DB_JOINS).concat(this.parseCSV(EX_DB_JOINS));
+        this._group_colors = this.parseCSV(HP_DB_GROUP_COLORS);
     }
 
     get allStars(): string[] {
@@ -189,13 +189,8 @@ class HPDatabase {
         return result;
     }
 
-    // CSVを取得する
-    private fetchCSV = (url: string): any[] => {
-        const request = new XMLHttpRequest();
-        request.open("GET", url, false);
-        request.send(null);
-        const csv = request.responseText;
-        return parse(csv, { columns: true });
+    private parseCSV = (csv: string): any[] => {
+        return parse(csv, { bom: true, columns: true });
     }
 }
 

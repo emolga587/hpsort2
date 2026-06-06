@@ -24,21 +24,22 @@ docker run -p 5000:5000 hpsort2
 
 ## 非docker環境
 
-### クローン・パッケージのインストール
+Denoを利用します。
+
+### クローン
 ```
 git clone --recursive https://github.com/emolga587/hpsort2.git  #サブモジュールも一緒にcloneしてください
 cd ./hpsort2/
-npm install
 ```
 
 ### 実行(development)
 ```
-npm start
+deno task dev
 ```
 
 ### ビルド(production)
 ```
-npm run build
+deno task build
 ```
 
 ## 不具合報告、改善要望、連絡先

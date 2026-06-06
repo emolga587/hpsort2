@@ -28,7 +28,7 @@ export default class App extends React.Component<Props, State> {
   render() {
     return (
       <Layout title={TITLE}>
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router basename={import.meta.env.BASE_URL}>
           <Route exact path="/" component={Home} />
           <Route exact path="/pandasan" component={Panda} />
           <Route exact path="/home" component={Home} />
