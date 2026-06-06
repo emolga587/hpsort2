@@ -59,7 +59,7 @@ export default class ResultPicture extends React.Component<Props, State> {
                         <CardMedia
                             component="img"
                             alt={this.props.name}
-                            image={`${img_dir}${this.props.name}.jpg`}
+                            image={`${img_dir}${this.props.name}.webp`}
                             title="Contemplative Reptile"
                             style={styles.media}
                         />

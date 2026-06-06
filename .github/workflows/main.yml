@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'emolga587/hpsort2'
     runs-on: ubuntu-latest
 
     steps:
@@ -16,16 +15,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: true
-        
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
-      - name: Install Python script dependencies
-        run: pip3 install pillow beautifulsoup4 aiohttp aiofiles lxml
-        
-      - name: Getting UpFront Group members (Hello!Project & M-line)
-        run: python3 ./script/get-ufg-pic.py ./public/member_pics
 
       - uses: denoland/setup-deno@v2
         with:
@@ -38,13 +27,16 @@ jobs:
  
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
+        if: github.repository == 'emolga587/hpsort2'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
           
-      - name: Deploy 
+      - name: Deploy
+        if: github.repository == 'emolga587/hpsort2'
         run: aws s3 cp --recursive --region ap-northeast-1 dist s3://italian-red/16be-at/sort/
         
-      - name: Clear CloudFront cache 
+      - name: Clear CloudFront cache
+        if: github.repository == 'emolga587/hpsort2'
         run: aws cloudfront create-invalidation --distribution-id E2P1UCYH9XFRDL --paths "/sort/*"
