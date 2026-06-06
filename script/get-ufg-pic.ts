@@ -40,7 +40,7 @@ const ufc_member_divs = new DOMParser().parseFromString(ufc_page, "text/html").q
 for (const ufc_member_div of Array.from(ufc_member_divs)) {
     const ufc_member_name = ufc_member_div.querySelector("div.CommonArtistPanel__name")!.textContent.trim();
     if (!hp_og_member_names.includes(ufc_member_name)) continue;
-    console.log(`up-front-create.com${ufc_member_name}`);
+    console.log(`up-front-create.com:${ufc_member_name}`);
     let largest_img;
     if (ufc_member_div.getAttribute("href")!.startsWith("/")) {
         const ufc_member_page = await (await fetch(`https://www.up-front-create.com${ufc_member_div.getAttribute("href")!}`)).text();
