@@ -1,0 +1,40 @@
+name: cron member pics
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-member-pics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Refresh member pics
+        run: deno run -A ./script/get-ufg-pic.ts
+
+      - name: Commit and push changes
+        run: |
+          if [ -z "$(git status --porcelain -- public/member_pics)" ]; then
+            echo "No member picture changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A public/member_pics
+          git commit -m "chore: refresh member pics"
+          git push origin HEAD:"$GITHUB_REF_NAME"
