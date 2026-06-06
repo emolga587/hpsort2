@@ -1,8 +1,9 @@
 import React from "react";
 import Header from "./Header";
-import { Box, Container } from "@material-ui/core/";
+import { Box, Container } from "@mui/material";
 interface Props {
   title?: string;
+  children?: React.ReactNode;
 }
 
 interface State {}

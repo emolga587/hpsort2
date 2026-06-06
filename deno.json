@@ -1,0 +1,33 @@
+{
+  "tasks": {
+    "dev": "deno run -A npm:vite@^8.0.16 --host 0.0.0.0",
+    "build": "deno run -A npm:vite@^8.0.16 build",
+    "preview": "deno run -A npm:vite@^8.0.16 preview --host 0.0.0.0",
+    "check": "deno run -A npm:typescript@^6.0.3/tsc --noEmit"
+  },
+  "nodeModulesDir": "auto",
+  "imports": {
+    "@fortawesome/fontawesome-svg-core": "npm:@fortawesome/fontawesome-svg-core@^7.2.0",
+    "@fortawesome/free-brands-svg-icons": "npm:@fortawesome/free-brands-svg-icons@^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "npm:@fortawesome/free-solid-svg-icons@^7.2.0",
+    "@fortawesome/react-fontawesome": "npm:@fortawesome/react-fontawesome@^3.3.1",
+    "@emotion/react": "npm:@emotion/react@^11.14.0",
+    "@emotion/styled": "npm:@emotion/styled@^11.14.1",
+    "@mui/icons-material": "npm:@mui/icons-material@^9.0.1",
+    "@mui/material": "npm:@mui/material@^9.0.1",
+    "@types/react": "npm:@types/react@^19.2.17",
+    "@types/react-dom": "npm:@types/react-dom@^19.2.3",
+    "@vitejs/plugin-react": "npm:@vitejs/plugin-react@^6.0.2",
+    "csv-parse": "npm:csv-parse@^6.2.1",
+    "csv-parse/browser/esm/sync": "npm:csv-parse@^6.2.1/browser/esm/sync",
+    "react": "npm:react@^19.2.7",
+    "react-dom": "npm:react-dom@^19.2.7",
+    "react-router-dom": "npm:react-router-dom@^7.17.0",
+    "vite": "npm:vite@^8.0.16"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true
+  }
+}

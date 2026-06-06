@@ -22,8 +22,7 @@
     "types": [
       "vite/client",
       "react",
-      "react-dom",
-      "react-router-dom"
+      "react-dom"
     ]
   },
   "include": [
