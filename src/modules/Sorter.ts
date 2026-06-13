@@ -189,55 +189,53 @@ export default class Sorter {
     }
 
     protected fordJohnson = (arr: string[]): string[] => {
-        // Jacobsthal配列
-        const JACOBSTHAL = [1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525];
+        const FORWARD_FACTOR = 1.05;
 
-        // 二分挿入
-        const binaryInsertion = (collection: string[], item: string): string[] => {
-            if (collection.length === 1) {
-                if (this.compare(item, collection[0])) {
-                    return [item, collection[0]].concat();
-                } else {
-                    return [collection[0], item].concat();
+        const insertionBatchEnd = (k: number): number => {
+            return Math.floor(FORWARD_FACTOR * (Math.pow(2, k + 1) + (k % 2 === 0 ? 1 : -1)) / 3);
+        };
+
+        const insertOrder = (length: number): number[] => {
+            let order: number[] = [];
+            let previousEnd = 0;
+
+            for (let k = 1; previousEnd < length; k++) {
+                const currentEnd = Math.min(insertionBatchEnd(k), length);
+                if (currentEnd <= previousEnd) {
+                    continue;
                 }
-            } else if (collection.length === 2) {
-                if (this.compare(item, collection[0])) {
-                    return [item].concat(collection);
-                } else if (this.compare(item, collection[1])) {
-                    return [collection[0], item, collection[1]].concat();
-                } else {
-                    return collection.concat([item]);
+
+                for (let i = currentEnd; i > previousEnd; i--) {
+                    order.push(i - 1);
                 }
+                previousEnd = currentEnd;
             }
 
-            let result: string[] = [];
-            let pivot = 0;
-            let left = 0;
-            let right = collection.length - 1;
+            return order;
+        };
 
-            while (left < right - 1) {
-                pivot = Math.floor((left + right) / 2);
+        const leftStrategyPivot = (length: number): number => {
+            const k = Math.floor(Math.log2(length));
+            const pivot = Math.max(length - Math.pow(2, k) + 1, Math.pow(2, k - 1));
+            return Math.min(length - 1, Math.max(0, pivot - 1));
+        };
+
+        // left strategyで二分挿入する
+        const binaryInsertion = (collection: string[], item: string): string[] => {
+            let left = 0;
+            let right = collection.length;
+
+            while (left < right) {
+                const pivot = left + leftStrategyPivot(right - left);
                 if (this.compare(item, collection[pivot])) {
                     right = pivot;
                 } else {
-                    left = pivot;
-                }
-            }
-            result = collection;
-
-            if (left === 0) {
-                if (this.compare(item, collection[left])) {
-                    return [item].concat(result);
+                    left = pivot + 1;
                 }
             }
 
-            if (right === collection.length - 1) {
-                if (this.compare(collection[right], item)) {
-                    return result.concat([item]);
-                }
-            }
-
-            result.splice(right, 0, item);
+            let result = collection.concat();
+            result.splice(left, 0, item);
             return result;
         }
 
@@ -282,27 +280,8 @@ export default class Sorter {
         }
         let result = pairKeys;
 
-        // 最適な順序で挿入していく
-        let insert_order: number[] = [];
-        for (let i of JACOBSTHAL) {
-            i = i - 1;
-            if (i >= sorted_pairs.length) {
-                for (let j = sorted_pairs.length - 1; j >= 0; j--) {
-                    if (!insert_order.some(num => num === j)) {
-                        insert_order.push(j);
-                    }
-                }
-                break;
-            }
-            insert_order.push(i);
-            for (let j = i; j >= 0; j--) {
-                if (!insert_order.some(num => num === j)) {
-                    insert_order.push(j);
-                }
-            }
-        }
-
-        for (let i of insert_order) {
+        // left strategy + forward factorで挿入していく
+        for (let i of insertOrder(sorted_pairs.length)) {
             let pair = sorted_pairs[i];
             let pivot: number;
             for (pivot = 0; pivot < result.length; pivot++) {
