@@ -1,6 +1,6 @@
 import {DOMParser} from "jsr:@b-fuze/deno-dom";
 import * as path from "node:path";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 
 const hp_top_page = await (await fetch("https://helloproject.com/index.html")).text();
 const group_divs = new DOMParser().parseFromString(hp_top_page, "text/html").querySelectorAll("div.commonGrid--artists a")
@@ -16,8 +16,7 @@ for (const group_url of Array.from(group_divs).map(group => group.getAttribute("
             .querySelectorAll(`div.MemberHeader__images div[data-id="memberImages"] img`)).map(img => img.getAttribute("src")!).map(
             async (img_url) => (await (await fetch(`https://helloproject.com${img_url}`)).blob())
         ))).sort((a, b) => b.size - a.size).at(0)!;
-        fs.writeFile(path.join("public", "member_pics", `${member_name}.webp`), Buffer.from(await largest_img.arrayBuffer()), () => {
-        });
+        await fs.writeFile(path.join("public", "member_pics", `${member_name}.webp`), Buffer.from(await largest_img.arrayBuffer()));
     }
 }
 
@@ -30,8 +29,7 @@ for (const hp_og_member_div of Array.from(hp_og_member_divs)) {
     const hp_og_member_name = hp_og_member_div.querySelector("div.MemberPanel__nameJa")!.textContent.trim();
     console.log(`helloproject.com/og:${hp_og_member_name}`);
     const hp_og_member_pic = await (await fetch(`https://helloproject.com${hp_og_member_pic_url}`)).blob();
-    fs.writeFile(path.join("public", "member_pics", `${hp_og_member_name}.webp`), Buffer.from(await hp_og_member_pic.arrayBuffer()), () => {
-    });
+    await fs.writeFile(path.join("public", "member_pics", `${hp_og_member_name}.webp`), Buffer.from(await hp_og_member_pic.arrayBuffer()));
     hp_og_member_names.push(hp_og_member_name);
 }
 
@@ -53,8 +51,7 @@ for (const ufc_member_div of Array.from(ufc_member_divs)) {
         largest_img = await (await fetch(`https://www.up-front-create.com${ufc_member_thumb_url}`)).blob();
 
     }
-    fs.writeFile(path.join("public", "member_pics", `${ufc_member_name}.webp`), Buffer.from(await largest_img.arrayBuffer()), () => {
-    });
+    await fs.writeFile(path.join("public", "member_pics", `${ufc_member_name}.webp`), Buffer.from(await largest_img.arrayBuffer()));
 }
 
 
@@ -68,6 +65,5 @@ for (const jp_room_member_url of Array.from(jp_room_member_divs).map(member => m
         .querySelectorAll(`div.MemberHeader__images div[data-id="memberImages"] img`)).map(img => img.getAttribute("src")!).map(
         async (img_url) => (await (await fetch(`https://www.jp-r.co.jp${img_url}`)).blob())
     ))).sort((a, b) => b.size - a.size).at(0)!;
-    fs.writeFile(path.join("public", "member_pics", `${member_name}.webp`), Buffer.from(await largest_img.arrayBuffer()), () => {
-    });
+    await fs.writeFile(path.join("public", "member_pics", `${member_name}.webp`), Buffer.from(await largest_img.arrayBuffer()));
 }
