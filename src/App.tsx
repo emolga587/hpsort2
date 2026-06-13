@@ -80,16 +80,6 @@ class Home extends React.Component<Props, State> {
         <Grid container size={12} sx={{ justifyContent: "center" }}><Button href="trainee" style={{ background: 'linear-gradient(45deg, #11d386 30%, #11d3bb 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>ハロプロ研修生ソート</Button></Grid>
         <Grid container size={12} sx={{ justifyContent: "center" }}><Button href="allstars" style={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white', fontWeight: 'bold', height: 32 }}>歴代ハロプロ全員ソート</Button></Grid>
         <Grid container size={12} sx={{ justifyContent: "center" }} spacing={0}>
-          <Grid size={12}><p>ソート結果の利用にあたって、以下の行為を禁じます。</p></Grid>
-          <p>
-            <u>
-              ソート結果を利用してメンバーを中傷する行為<br />
-              ソート結果をメンバーへ伝える行為（方法を問わず）<br />
-              ソート結果のスクリーンショットをSNSにアップロードする行為<br />
-            </u>
-          </p>
-        </Grid>
-        <Grid container size={12} sx={{ justifyContent: "center" }} spacing={0}>
           <p><a href="https://twitter.com/xxgentaroxx" target="_blank" rel="noreferrer">@xxgentaroxx</a>大先生による、歴代ハロプロメンバーの<a href="https://github.com/xxgentaroxx/HP_DB" target="_blank" rel="noreferrer">オープンデータ</a>から自動生成しています。</p>
           <p>「引き分け」ボタンを1回押すと比較回数が4-5回減ります。急いでいる方は活用してください。</p>
         </Grid>

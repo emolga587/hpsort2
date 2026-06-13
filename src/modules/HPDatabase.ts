@@ -190,7 +190,8 @@ class HPDatabase {
     }
 
     private parseCSV = (csv: string): any[] => {
-        return parse(csv, { bom: true, columns: true });
+        const normalizedCSV = csv.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+        return parse(normalizedCSV, { bom: true, columns: true });
     }
 }
 

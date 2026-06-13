@@ -111,15 +111,6 @@ export default class SortPage extends React.Component<Props, State> {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Grid container sx={{ justifyContent: "center" }} size={12}>
-              <p>
-                <b>ソート結果の利用にあたって、以下の行為を禁じます。</b><br />
-                  ・ソート結果を利用してメンバーを中傷する行為<br />
-                  ・ソート結果をメンバーへ伝える行為（方法を問わず）<br />
-                  ・ソート結果のスクリーンショットをSNSにアップロードする行為<br />
-                  結果の共有は、下記のボタンをご利用ください。
-              </p>
-            </Grid>
           </Grid>
           <Grid container size={12} sx={{ justifyContent: "center" }}>
             <br />
