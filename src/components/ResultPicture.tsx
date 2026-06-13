@@ -1,11 +1,11 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import { Box, GridSize } from "@material-ui/core";
-import hpDB from "../modules/HPDatabase";
+import Grid from "@mui/material/Grid";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Box } from "@mui/material";
+import hpDB from "../modules/HPDatabase.ts";
 
 interface Props {
     name: string;
@@ -15,7 +15,7 @@ interface Props {
 interface State { }
 
 export default class ResultPicture extends React.Component<Props, State> {
-    render() {
+    override render() {
         let img_dir: string;
         if (Number(hpDB.memberName2ID(this.props.name)) < 9000) {
             img_dir = "member_pics/";
@@ -33,7 +33,7 @@ export default class ResultPicture extends React.Component<Props, State> {
         };
 
         let name_font_size = 14;
-        let card_width: GridSize = 4;
+        let card_width: 3 | 4 | 6 | 12 = 4;
 
         if (this.props.rank === 1) {
             styles.media.width *= 3;
@@ -53,13 +53,13 @@ export default class ResultPicture extends React.Component<Props, State> {
         }
 
         return (
-            <Grid container item xs={card_width} justifyContent="center">
-                <Box m={0.5}>
+            <Grid container size={card_width} sx={{ justifyContent: "center" }}>
+                <Box sx={{ m: 0.5 }}>
                     <Card>
                         <CardMedia
                             component="img"
                             alt={this.props.name}
-                            image={`${img_dir}${this.props.name}.jpg`}
+                            image={`${img_dir}${this.props.name}.webp`}
                             title="Contemplative Reptile"
                             style={styles.media}
                         />

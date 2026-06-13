@@ -1,10 +1,10 @@
 import React from "react";
 
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import hpDB from "../modules/HPDatabase";
 
 interface Props {
@@ -39,7 +39,7 @@ export default class MemberPicture extends React.Component<Props, State> {
                     <CardMedia
                         component="img"
                         alt={this.props.name}
-                        image={`${img_dir}${this.props.name}.jpg`}
+                        image={`${img_dir}${this.props.name}.webp`}
                         title="Contemplative Reptile"
                         style={styles.media}
                     />
@@ -47,7 +47,7 @@ export default class MemberPicture extends React.Component<Props, State> {
                         <Typography gutterBottom variant="h6" component="h2">
                             {this.props.name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
+                        <Typography variant="body2" color="text.secondary" component="p">
                             {hpDB.groupNameByMemberName(this.props.name)}
                         </Typography>
                     </CardContent>

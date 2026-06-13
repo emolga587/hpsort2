@@ -1,15 +1,15 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import BogoSorter from "../modules/BogoSorter";
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
@@ -35,7 +35,7 @@ export default class BogoSortPage extends React.Component<Props, State> {
         this.state = { result: this.sort.sort(), count: 1 };
     }
     render() {
-        let rankTable: JSX.Element[] = [];
+        let rankTable: React.ReactElement[] = [];
         let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
         let max_output = 10;
         if (this.props.members.length < 10) {
@@ -52,8 +52,8 @@ export default class BogoSortPage extends React.Component<Props, State> {
           }
         }
   
-        const getResultPictures = (min: Number, max: Number) => {
-          const result: JSX.Element[] = [];
+        const getResultPictures = (min: number, max: number) => {
+          const result: React.ReactElement[] = [];
           for (let i of this.sort.array) {
             if (this.sort.rank(i) >= min && this.sort.rank(i) <= max) {
               result.push(
@@ -66,29 +66,29 @@ export default class BogoSortPage extends React.Component<Props, State> {
   
         tweet_url += "&hashtags=" + encodeURI("ハロプロソート") + "&url=" + encodeURI("https://16be.at/sort/");
         console.log(tweet_url);
-        return <Grid container alignItems="flex-start">
-          <Grid container item xs={12} justifyContent="center">
+        return <Grid container sx={{ alignItems: "flex-start" }}>
+          <Grid container size={12} sx={{ justifyContent: "center" }}>
             <h2 style={{ marginBottom: 0 }}>{this.props.sortName}結果</h2>
           </Grid>
-          <Grid container item xs={12} justifyContent="center">
+          <Grid container size={12} sx={{ justifyContent: "center" }}>
             <p style={{ marginTop: 0, marginBottom: 10 }}>AIが決めた、あなたの結果です</p>
           </Grid>
-          <Grid container item md={6} xs={12} justifyContent="center">
-            <Grid container item xs={12} justifyContent="center">
+          <Grid container size={{ xs: 12, md: 6 }} sx={{ justifyContent: "center" }}>
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {getResultPictures(1, 1)}
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {getResultPictures(2, 3)}
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {getResultPictures(4, 6)}
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {getResultPictures(7, 10)}
             </Grid>
           </Grid>
   
-          <Grid container item md={6} xs={12} justifyContent="center">
+          <Grid container size={{ xs: 12, md: 6 }} sx={{ justifyContent: "center" }}>
             <TableContainer component={Paper}>
               <Table size="small" aria-label="a dense table">
                 <TableHead>
@@ -104,7 +104,7 @@ export default class BogoSortPage extends React.Component<Props, State> {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid container item xs={12} justifyContent="center">
+          <Grid container size={12} sx={{ justifyContent: "center" }}>
             <br />
             <p>
               <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#00ACEE", color: "#ffffff" }}><FontAwesomeIcon icon={faTwitter} />&nbsp;結果をツイート</Button>

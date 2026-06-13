@@ -1,17 +1,17 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import Sorter from "../modules/Sorter";
 import MemberPicture from "./MemberPicture";
 import ResultPicture from "./ResultPicture";
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserFriends, faShare } from '@fortawesome/free-solid-svg-icons'
@@ -36,7 +36,7 @@ export default class SortPage extends React.Component<Props, State> {
   }
   render() {
     if (this.state.result) {
-      let rankTable: JSX.Element[] = [];
+      let rankTable: React.ReactElement[] = [];
       let tweet_url: string = "https://twitter.com/intent/tweet?text=" + encodeURI(`${this.props.sortName}結果\n`);
       let share_text: string = `${this.props.sortName}結果\n`;
       let max_output = 10;
@@ -74,29 +74,29 @@ export default class SortPage extends React.Component<Props, State> {
       tweet_url += "&hashtags=" + encodeURI("ハロプロソート") + "&url=" + encodeURI("https://16be.at/sort/");
       console.log(tweet_url);
       return (
-        <Grid container alignItems="flex-start">
-          <Grid container item xs={12} justifyContent="center">
+        <Grid container sx={{ alignItems: "flex-start" }}>
+          <Grid container size={12} sx={{ justifyContent: "center" }}>
             <h2 style={{ marginBottom: 0 }}>{this.props.sortName}結果</h2>
           </Grid>
-          <Grid container item xs={12} justifyContent="center">
+          <Grid container size={12} sx={{ justifyContent: "center" }}>
             <p style={{ marginTop: 0, marginBottom: 10 }}>ラウンド{this.sort.currentRound} - {this.sort.progress}%</p>
           </Grid>
-          <Grid container item md={6} xs={12} justifyContent="center">
-            <Grid container item xs={12} justifyContent="center">
+          <Grid container size={{ xs: 12, md: 6 }} sx={{ justifyContent: "center" }}>
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {this.getResultPictures(1, 1)}
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {this.getResultPictures(2, 3)}
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {this.getResultPictures(4, 6)}
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               {this.getResultPictures(7, 10)}
             </Grid>
           </Grid>
 
-          <Grid container item md={6} xs={12} justifyContent="center">
+          <Grid container size={{ xs: 12, md: 6 }} sx={{ justifyContent: "center" }}>
             <TableContainer component={Paper}>
               <Table size="small" aria-label="a dense table">
                 <TableHead>
@@ -111,7 +111,7 @@ export default class SortPage extends React.Component<Props, State> {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Grid container item justifyContent="center" xs={12}>
+            <Grid container sx={{ justifyContent: "center" }} size={12}>
               <p>
                 <b>ソート結果の利用にあたって、以下の行為を禁じます。</b><br />
                   ・ソート結果を利用してメンバーを中傷する行為<br />
@@ -121,7 +121,7 @@ export default class SortPage extends React.Component<Props, State> {
               </p>
             </Grid>
           </Grid>
-          <Grid container item xs={12} justifyContent="center">
+          <Grid container size={12} sx={{ justifyContent: "center" }}>
             <br />
             <p>
               <Button href={tweet_url} target="_blank" variant="contained" size="large" style={{ backgroundColor: "#000000", color: "#ffffff", marginRight: "10px" }}>
@@ -145,13 +145,13 @@ export default class SortPage extends React.Component<Props, State> {
       return (
         <div style={{ textAlign: "center" }}>
           <Grid container spacing={1}>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               <h2 style={{ marginBottom: 0 }}>{this.props.sortName}</h2>
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               <p style={{ marginTop: 0, marginBottom: 5 }}>ラウンド{this.sort.currentRound} - {this.sort.progress}%</p>
             </Grid>
-            <Grid container item xs={6} justifyContent="center">
+            <Grid container size={6} sx={{ justifyContent: "center" }}>
               <MemberPicture name={this.sort.lastChallenge[0]}
                 onClick={() => {
                   this.sort.backable = true;
@@ -160,7 +160,7 @@ export default class SortPage extends React.Component<Props, State> {
                   this.setState({ result: this.sort.sort() });
                 }} />
             </Grid>
-            <Grid container item xs={6} justifyContent="center">
+            <Grid container size={6} sx={{ justifyContent: "center" }}>
               <MemberPicture name={this.sort.lastChallenge[1]}
                 onClick={() => {
                   this.sort.backable = true;
@@ -169,7 +169,7 @@ export default class SortPage extends React.Component<Props, State> {
                   this.setState({ result: this.sort.sort() });
                 }} />
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               <Button variant="contained" size="large" style={{ backgroundColor: "white", color: "#444" }}
                 onClick={() => {
                   this.sort.backable = true;
@@ -181,7 +181,7 @@ export default class SortPage extends React.Component<Props, State> {
                 両方勝ち
               </Button>
             </Grid>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid container size={12} sx={{ justifyContent: "center" }}>
               <Button size="large" style={{ backgroundColor: "#444", color: "white" }}
                 onClick={() => {
                   if (this.sort.backable) {
@@ -202,7 +202,7 @@ export default class SortPage extends React.Component<Props, State> {
   }
 
   getResultPictures(min: number, max: number) {
-    const result: JSX.Element[] = [];
+    const result: React.ReactElement[] = [];
     for (let i of this.sort.array) {
       if (this.sort.rank(i) >= min && this.sort.rank(i) <= max) {
         result.push(

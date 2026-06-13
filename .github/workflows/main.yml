@@ -1,60 +1,42 @@
-# This is a basic workflow to help you get started with Actions
-
 name: build and deploy to AWS
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
-    if: github.repository == 'emolga587/hpsort2'
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repo content
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           submodules: true
-        
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
 
-      - name: Install Python script dependencies
-        run: pip3 install pillow beautifulsoup4 aiohttp aiofiles lxml
-        
-      - name: Getting UpFront Group members (Hello!Project & M-line)
-        run: python3 ./script/get-ufg-pic.py ./public/member_pics
-
-      - uses: actions/setup-node@v3
+      - uses: denoland/setup-deno@v2
         with:
-          node-version: 16
+          deno-version: v2.x
       - name: Install Dependencies
-        run: npm install
+        run: deno cache vite.config.ts
 
       - name: Build
-        run: npm run build
+        run: deno task build
  
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v6
+        if: github.repository == 'emolga587/hpsort2'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
           
-      - name: Deploy 
-        run: aws s3 cp --recursive --region ap-northeast-1 build s3://italian-red/16be-at/sort/
+      - name: Deploy
+        if: github.repository == 'emolga587/hpsort2'
+        run: aws s3 cp --recursive --region ap-northeast-1 dist s3://italian-red/16be-at/sort/
         
-      - name: Clear CloudFront cache 
+      - name: Clear CloudFront cache
+        if: github.repository == 'emolga587/hpsort2'
         run: aws cloudfront create-invalidation --distribution-id E2P1UCYH9XFRDL --paths "/sort/*"
